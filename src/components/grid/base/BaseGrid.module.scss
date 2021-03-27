@@ -1,0 +1,13 @@
+.main {
+  display: grid;
+  background-color: #b4b4ff;
+  border: 1px solid #b4b4ff;
+  grid-gap: 1px;
+  .rowMain {
+    padding: 20px 10px;
+  }
+
+  > div {
+    aspect-ratio: 1;
+  }
+}

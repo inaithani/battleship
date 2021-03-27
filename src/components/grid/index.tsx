@@ -1,8 +1,6 @@
+import BaseGrid from './base/BaseGrid';
+import { IGridIndexProps } from './index.model';
 
-
-export function Grid() {
-    return <div className="grid">
-        <h1>GRID</h1>
-    </div>
+export default function GridWrapper(props: IGridIndexProps) {
+  return <BaseGrid {...props} />
 }
-
