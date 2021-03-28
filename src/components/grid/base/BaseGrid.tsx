@@ -1,17 +1,30 @@
-import Cell from '../cell/Cell';
+import { useState } from 'react';
+import DropAwareCell from '../cell/DropAwareCell';
 import styles from './BaseGrid.module.scss';
-import { IBaseGridProps, DefaultGridDimesions } from './BaseGrid.model';
+import { IBaseGridProps } from './BaseGrid.model';
+import { CellState } from '../cell/Cell.model';
+import { DefaultGridDimesions } from '../../../App.model';
+
+const getBaseGridState = (rows: number, columns: number) => {
+  const arrayState = new Array(rows);
+  for (let i = 0; i < arrayState.length; i += 1) {
+    arrayState[i] = new Array(columns);
+    arrayState[i].fill(0, 0, columns);
+  }
+
+  return arrayState;
+};
 
 export default function BaseGrid({
   rows = DefaultGridDimesions.Rows,
   columns = DefaultGridDimesions.Columns,
 }: IBaseGridProps) {
-  const rowsArray = [...Array(rows)];
-  const columnArray = [...Array(columns)];
+  const [gridState] = useState(getBaseGridState(rows, columns));
+  const baseGridWith = (columns * DefaultGridDimesions.CellSize) + (columns - 1);
   return (
-    <div className={styles.main} style={{ gridTemplateColumns: `repeat(${columns}, minmax(10px, 1fr))` }}>
+    <div className={styles.main} style={{ width: baseGridWith, gridTemplateColumns: `repeat(${columns}, minmax(${DefaultGridDimesions.CellSize}px, 0fr))` }}>
       { // eslint-disable-next-line
-        rowsArray.map((_, rowIndex) => columnArray.map((__, columnIndex) => <Cell rowIndex={rowIndex} columnIndex={columnIndex} />))
+        gridState.map((rowArray, rowIndex) => rowArray.map((cellState: CellState, columnIndex: number) => <DropAwareCell cellState={cellState} key={`${rowIndex}${columnIndex}`} rowIndex={rowIndex} columnIndex={columnIndex} />))
       }
     </div>
   );

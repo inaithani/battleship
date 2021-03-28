@@ -1,3 +1,11 @@
 .cell {
   background-color: #fff;
 }
+
+.cell.isOver {
+  background-color: red;
+}
+
+.isShip {
+  border: 1px solid #b4b4ff;
+}
