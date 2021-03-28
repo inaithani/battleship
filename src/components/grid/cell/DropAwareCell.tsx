@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import Cell from './Cell';
+import Ship from '../../ship/index';
 import { ICellProps } from './Cell.model';
 import { ItemTypes, IDragItem } from '../../../App.model';
 
@@ -8,21 +10,24 @@ export default function DropAwareCell({
   columnIndex,
   isShip = false,
   cellState,
+  updateGridState,
 }: ICellProps) {
+  const [item, setItem] = useState<IDragItem>({ length: 0, orientation: 'horizontal' });
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.Ship,
-    drop: () => {},
-    collect: (monitor) => {
-      const item: IDragItem = monitor.getItem();
-      if (item) {
-        if (item.orientation === 'horizontal') {
-          console.log(item);
-        }
+    drop: (draggedItem: IDragItem) => {
+      if (draggedItem) {
+        setItem(draggedItem);
       }
       return {
-        isOver: monitor.isOver(),
+        rowIndex,
+        columnIndex,
+        cellState,
       };
     },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
   }));
   return (
     <div ref={drop}>
@@ -32,7 +37,17 @@ export default function DropAwareCell({
         columnIndex={columnIndex}
         isOver={isOver}
         cellState={cellState}
+        updateGridState={updateGridState}
       />
+      {
+        cellState ? (
+          <Ship
+            updateGridState={updateGridState}
+            length={item.length}
+            orientation={item.orientation}
+          />
+        ) : null
+      }
     </div>
   );
 }

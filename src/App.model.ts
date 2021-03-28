@@ -14,3 +14,12 @@ export interface IDragItem {
   orientation: Orientation,
   length: number
 }
+export interface IDropResult {
+  cellState: number,
+  columnIndex: number,
+  dropEffect: string,
+  rowIndex: number
+}
+export type CellState = 0 | 1;
+
+export type GridState = Array<Array<CellState>>;
