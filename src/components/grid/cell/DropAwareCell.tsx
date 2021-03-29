@@ -30,7 +30,7 @@ export default function DropAwareCell({
     }),
   }));
   return (
-    <div ref={drop}>
+    <div ref={drop} style={cellState ? { position: 'relative' } : {}}>
       <Cell
         isShip={isShip}
         rowIndex={rowIndex}
@@ -45,6 +45,7 @@ export default function DropAwareCell({
             updateGridState={updateGridState}
             length={item.length}
             orientation={item.orientation}
+            isPlacedOnGrid
           />
         ) : null
       }

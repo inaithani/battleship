@@ -1,4 +1,5 @@
 import { useDrag, DragSourceMonitor } from 'react-dnd';
+import classNames from 'classnames';
 import Cell from '../grid/cell/Cell';
 import { ShipProps } from './Ship.model';
 import {
@@ -9,7 +10,12 @@ import {
 } from '../../App.model';
 import styles from './Ship.module.scss';
 
-export default function Ship({ length, orientation, updateGridState }: ShipProps) {
+export default function Ship({
+  length,
+  orientation,
+  updateGridState,
+  isPlacedOnGrid = false,
+}: ShipProps) {
   const draggedItem: IDragItem = {
     orientation,
     length,
@@ -32,8 +38,12 @@ export default function Ship({ length, orientation, updateGridState }: ShipProps
   }));
   const shipArray = [...Array(length).fill(0, 0, length)];
   const width = orientation === 'horizontal' ? DefaultGridDimesions.CellSize * length : DefaultGridDimesions.CellSize;
+  const shipClasses = classNames({
+    [styles[`ship${orientation}`]]: true,
+    [styles.isPlacedOnGrid]: isPlacedOnGrid,
+  });
   return (
-    <div ref={drag} className={styles[`ship${orientation}`]} style={{ width, opacity: isDragging ? 0.5 : 1 }}>
+    <div ref={drag} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>
       {
         shipArray.map((el, index) => <Cell updateGridState={updateGridState} key={`${orientation}-${el + index}`} isShip />)
       }

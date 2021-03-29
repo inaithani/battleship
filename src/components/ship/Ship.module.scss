@@ -1,3 +1,13 @@
 .shiphorizontal {
   display: flex;
 }
+
+.shipvertical {
+  display: block;
+}
+
+.isPlacedOnGrid {
+  position: absolute;
+  top: 0;
+  border: 2px solid #00f;
+}
