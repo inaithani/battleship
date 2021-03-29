@@ -23,3 +23,11 @@ export interface IDropResult {
 export type CellState = 0 | 1;
 
 export type GridState = Array<Array<CellState>>;
+
+export interface IGridStateUpdateObject {
+  cellState: CellState,
+  columnIndex: number,
+  rowIndex: number
+}
+
+export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>

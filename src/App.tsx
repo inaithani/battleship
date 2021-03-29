@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import GridWrapper from './components/grid/index';
 import Ship from './components/ship/index';
 import { getBaseGridState } from './utils/index';
-import { DefaultGridDimesions, CellState } from './App.model';
+import { DefaultGridDimesions, IGridStateUpdateObjects } from './App.model';
 import styles from './App.module.scss';
 
 function App() {
@@ -12,9 +12,14 @@ function App() {
     getBaseGridState(DefaultGridDimesions.Rows, DefaultGridDimesions.Columns),
   );
 
-  const updateGridState = (cellState: CellState, rowIndex: number, columnIndex: number) => {
+  const updateGridState = (gridStateUpdateObjects: IGridStateUpdateObjects) => {
     const newState = [...gridState];
-    newState[rowIndex][columnIndex] = 1;
+
+    gridStateUpdateObjects.forEach((gridStateUpdateObject) => {
+      const { cellState, rowIndex, columnIndex } = gridStateUpdateObject;
+      newState[rowIndex][columnIndex] = cellState;
+    });
+
     setGridState(newState);
   };
 
@@ -23,9 +28,11 @@ function App() {
       <div className={styles.app}>
         <h2>Battleship</h2>
         <div className={styles.playerView}>
+          <Ship updateGridState={updateGridState} length={1} orientation="vertical" />
+          <p>---</p>
           <Ship updateGridState={updateGridState} length={3} orientation="vertical" />
           <p>----</p>
-          <Ship updateGridState={updateGridState} length={3} orientation="horizontal" />
+          <Ship updateGridState={updateGridState} length={5} orientation="horizontal" />
           <p>----</p>
           <GridWrapper gridState={gridState} updateGridState={updateGridState} />
         </div>

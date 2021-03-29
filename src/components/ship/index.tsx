@@ -31,7 +31,15 @@ export default function Ship({
       if (dropResult) {
         const { rowIndex, columnIndex } = dropResult;
         if (dropResult && updateGridState) {
-          updateGridState(1, rowIndex, columnIndex);
+          const cellsToUpdate = [];
+          if (orientation === 'horizontal') {
+            let n = length - 1;
+            while (n) {
+              cellsToUpdate.push({ cellState: 1, rowIndex, columnIndex: columnIndex + n });
+              n -= 1;
+            }
+          }
+          updateGridState(cellsToUpdate);
         }
       }
     },
