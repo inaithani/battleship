@@ -8,6 +8,7 @@ import {
   IDragItem,
   IDropResult,
 } from '../../App.model';
+import { getCellsToUpdate } from '../../utils/index';
 import styles from './Ship.module.scss';
 
 export default function Ship({
@@ -31,14 +32,7 @@ export default function Ship({
       if (dropResult) {
         const { rowIndex, columnIndex } = dropResult;
         if (dropResult && updateGridState) {
-          const cellsToUpdate = [];
-          if (orientation === 'horizontal') {
-            let n = length - 1;
-            while (n) {
-              cellsToUpdate.push({ cellState: 1, rowIndex, columnIndex: columnIndex + n });
-              n -= 1;
-            }
-          }
+          const cellsToUpdate = getCellsToUpdate(orientation, rowIndex, columnIndex, length, 1);
           updateGridState(cellsToUpdate);
         }
       }
@@ -51,7 +45,7 @@ export default function Ship({
     [styles.isPlacedOnGrid]: isPlacedOnGrid,
   });
   return (
-    <div ref={drag} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>
+    <div ref={drag} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize - 1 : 'auto' }}>
       {
         shipArray.map((el, index) => <Cell updateGridState={updateGridState} key={`${orientation}-${el + index}`} isShip />)
       }

@@ -2,10 +2,18 @@
   background-color: #fff;
 }
 
-.cell.isOver {
-  background-color: red;
-}
-
 .isShip {
   border: 1px solid #b4b4ff;
+}
+
+.positionRelative {
+  position: relative;
+}
+
+.showDropPlaceholder {
+  border: 2px solid forestgreen;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }

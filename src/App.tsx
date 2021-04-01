@@ -16,8 +16,16 @@ function App() {
     const newState = [...gridState];
 
     gridStateUpdateObjects.forEach((gridStateUpdateObject) => {
-      const { cellState, rowIndex, columnIndex } = gridStateUpdateObject;
-      newState[rowIndex][columnIndex] = cellState;
+      const {
+        state,
+        rowIndex,
+        columnIndex,
+        isTarget = false,
+      } = gridStateUpdateObject;
+      newState[rowIndex][columnIndex] = {
+        isTarget,
+        state,
+      };
     });
 
     setGridState(newState);

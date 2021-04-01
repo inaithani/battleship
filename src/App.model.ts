@@ -20,14 +20,21 @@ export interface IDropResult {
   dropEffect: string,
   rowIndex: number
 }
-export type CellState = 0 | 1;
+
+export type StateValue = 0 | 1;
+
+export type CellState = {
+  isTarget: boolean,
+  state: StateValue,
+};
 
 export type GridState = Array<Array<CellState>>;
 
 export interface IGridStateUpdateObject {
-  cellState: CellState,
+  state: StateValue,
   columnIndex: number,
-  rowIndex: number
+  rowIndex: number,
+  isTarget: boolean,
 }
 
 export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>
