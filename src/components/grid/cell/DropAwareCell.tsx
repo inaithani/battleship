@@ -23,6 +23,7 @@ export default function DropAwareCell({
   const { state } = useContext(GameContext);
   const playerState = state[id];
   const [showDropPlaceholder, setShowDropPlaceholder] = useState(false);
+  const [currentDraggedShip, setCurrentDraggedShip] = useState<IDragItem | null>(null);
   const [, drop] = useDrop(() => ({
     accept: ItemTypes.Ship,
     drop: (draggedItem: IDragItem): IDragCollectionItem => ({
@@ -42,6 +43,7 @@ export default function DropAwareCell({
       const isOverCell = monitor.isOver();
       if (isOverCell) {
         const shipItem: IDragItem = monitor.getItem();
+        setCurrentDraggedShip(shipItem);
         const isColliding = hasCollisionPath(
           playerState.gridState,
           rowIndex,
@@ -100,12 +102,12 @@ export default function DropAwareCell({
         ) : null
       }
       {
-        showDropPlaceholder && ship ? (
+        showDropPlaceholder && currentDraggedShip ? (
           <div
             className={classesPlaceholder}
             style={{
-              height: ship.orientation === 'vertical' ? DefaultGridDimesions.CellSize * ship.length : DefaultGridDimesions.CellSize,
-              width: ship.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * ship.length : DefaultGridDimesions.CellSize,
+              height: currentDraggedShip.orientation === 'vertical' ? DefaultGridDimesions.CellSize * currentDraggedShip.length : DefaultGridDimesions.CellSize,
+              width: currentDraggedShip.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * currentDraggedShip.length : DefaultGridDimesions.CellSize,
             }}
           />
         ) : null
