@@ -1,7 +1,7 @@
 import { useDrag, DragSourceMonitor } from 'react-dnd';
 import classNames from 'classnames';
 import Cell from '../grid/cell/Cell';
-import { ShipProps } from './Ship.model';
+import * as ShipModel from './Ship.model';
 import {
   DefaultGridDimesions,
   ItemTypes,
@@ -17,7 +17,7 @@ export default function Ship({
   orientation,
   updateGridState,
   isPlacedOnGrid = false,
-}: ShipProps) {
+}: ShipModel.ShipProps) {
   const draggedItem: IDragItem = {
     orientation,
     length,
@@ -34,19 +34,25 @@ export default function Ship({
       if (dropResult) {
         const { rowIndex, columnIndex } = dropResult;
         if (dropResult && updateGridState) {
+          const ship: ShipModel.Ship = {
+            id,
+            length,
+            orientation,
+          };
           const cellsToUpdate = getCellsToUpdate(
             orientation,
             rowIndex,
             columnIndex,
             length,
             1,
+            ship,
           );
           updateGridState(cellsToUpdate);
         }
       }
     },
     options: {
-      dropEffect: 'copy',
+      dropEffect: 'move',
     },
   }));
   const shipArray = [...Array(length).fill(0, 0, length)];

@@ -22,5 +22,5 @@
       }
     }
   },  
-  "extends": ["airbnb", "airbnb/hooks"]
+  "extends": ["airbnb", "airbnb/hooks", "react-app"]
 }

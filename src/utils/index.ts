@@ -28,6 +28,7 @@ export const getCellsToUpdate = (
   columnIndex: number,
   length: number,
   state = 1,
+  ship: any,
 ) => {
   const cellsToUpdate = [];
   if (length === 1) {
@@ -36,6 +37,7 @@ export const getCellsToUpdate = (
       rowIndex,
       columnIndex,
       isTarget: true,
+      ship,
     }];
   }
 
@@ -50,11 +52,13 @@ export const getCellsToUpdate = (
       rowIndex: orientation === 'vertical' ? n : rowIndex,
       columnIndex: orientation === 'horizontal' ? n : columnIndex,
       isTarget: false,
+      ship: null,
     });
     n += 1;
   }
 
   cellsToUpdate[0].isTarget = true;
+  cellsToUpdate[0].ship = ship;
   return cellsToUpdate;
 };
 

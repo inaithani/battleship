@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Player from '../player/index';
+import { PlayerIdentifiers } from '../../App.model';
 
 const Game = () => {
   const [activePlayer, setActivePlayer] = useState(0);
@@ -10,8 +11,8 @@ const Game = () => {
 
   return (
     <div>
-      <Player id={0} isActive={activePlayer === 0} />
-      <Player id={1} isActive={activePlayer === 1} />
+      <Player id={PlayerIdentifiers.FIRST} />
+      <Player id={PlayerIdentifiers.SECOND} />
       <button type="button" onClick={move}>Next</button>
     </div>
   );
