@@ -1,3 +1,4 @@
+import { ActionKind, IUpdateCellAction } from '../Actions';
 import {
   GridState,
   CellState,
@@ -143,4 +144,40 @@ export const getUpdatedGridState = (
   });
 
   return newState;
+};
+
+export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellAction): void => {
+  const {
+    rowIndex,
+    cellState,
+    columnIndex,
+    id,
+  } = payload;
+
+  if (cellState.ship) {
+    const { ship: { orientation } } = cellState;
+    const isVertical = orientation === 'vertical';
+
+    let n = isVertical ? rowIndex : columnIndex;
+    const indexToUse = isVertical ? rowIndex : columnIndex;
+
+    const siblingCellBusy: CellState = {
+      isTarget: false,
+      ship: null,
+      state: 1,
+    };
+
+    while (n < indexToUse + cellState.ship.length) {
+      dispatch({
+        type: ActionKind.UpdateCell,
+        payload: {
+          rowIndex: orientation === 'vertical' ? n : rowIndex,
+          columnIndex: orientation === 'horizontal' ? n : columnIndex,
+          cellState: n === indexToUse ? cellState : siblingCellBusy,
+          id,
+        },
+      });
+      n += 1;
+    }
+  }
 };

@@ -17,10 +17,15 @@ export interface IDragItem {
   length: number,
   id: string
 }
+
+export interface IDragCollectionItem {
+  rowIndex: number;
+  columnIndex: number;
+  cellState: CellState;
+}
 export interface IDropResult {
-  cellState: number,
+  cellState: CellState,
   columnIndex: number,
-  dropEffect: string,
   rowIndex: number
 }
 
@@ -59,24 +64,5 @@ export interface IPlayerGameState {
 export interface GameState {
   [key: string]: IPlayerGameState
 }
-
-export enum ActionKind {
-  SetActivePlayer = 'SET_ACTIVE_PLAYER',
-}
-
-export type Action = {
-  type: ActionKind,
-  payload: number,
-}
-
-// const increaseAction: Action = {
-//   type: ActionKind.Increase,
-//   payload: 1,
-// }
-
-// const decreaseAction: Action = {
-//   type: ActionKind.Decrease,
-//   payload: 1,
-// }
 
 export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>

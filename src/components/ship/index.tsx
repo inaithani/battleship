@@ -1,23 +1,27 @@
+import { useContext } from 'react';
 import { useDrag, DragSourceMonitor } from 'react-dnd';
 import classNames from 'classnames';
-import Cell from '../grid/cell/Cell';
+import { GameContext } from '../../GameStore';
+import ShipCell from './ShipCell';
 import * as ShipModel from './Ship.model';
 import {
   DefaultGridDimesions,
   ItemTypes,
   IDragItem,
-  IDropResult,
+  IDragCollectionItem,
 } from '../../App.model';
-import { getCellsToUpdate } from '../../utils/index';
+import { ActionKind } from '../../Actions';
 import styles from './Ship.module.scss';
+import { dispatchUpdateCell } from '../../utils';
 
 export default function Ship({
   id,
   length,
   orientation,
-  updateGridState,
   isPlacedOnGrid = false,
+  playerId,
 }: ShipModel.ShipProps) {
+  const { dispatch } = useContext(GameContext);
   const draggedItem: IDragItem = {
     orientation,
     length,
@@ -30,25 +34,9 @@ export default function Ship({
       isDragging: !!monitor.isDragging(),
     }),
     end: (item: IDragItem, monitor: DragSourceMonitor) => {
-      const dropResult: IDropResult | null = monitor.getDropResult();
+      const dropResult: IDragCollectionItem | null = monitor.getDropResult();
       if (dropResult) {
-        const { rowIndex, columnIndex } = dropResult;
-        if (dropResult && updateGridState) {
-          const ship: ShipModel.Ship = {
-            id,
-            length,
-            orientation,
-          };
-          const cellsToUpdate = getCellsToUpdate(
-            orientation,
-            rowIndex,
-            columnIndex,
-            length,
-            1,
-            ship,
-          );
-          updateGridState(cellsToUpdate);
-        }
+        dispatchUpdateCell(dispatch, { ...dropResult, id: playerId });
       }
     },
     options: {
@@ -64,7 +52,7 @@ export default function Ship({
   return (
     <div ref={drag} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize - 1 : 'auto' }}>
       {
-        shipArray.map((el, index) => <Cell updateGridState={updateGridState} key={`${orientation}-${el + index}`} isShip />)
+        shipArray.map((el, index) => <ShipCell key={`${orientation}-${el + index}`} />)
       }
     </div>
   );

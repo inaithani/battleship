@@ -14,7 +14,7 @@ export default function BaseGrid({ id }: IBaseGridProps) {
   return (
     <div className={styles.main} style={{ width: baseGridWith, gridTemplateColumns: `repeat(${Columns}, minmax(${CellSize}px, 0fr))` }}>
       { // eslint-disable-next-line
-        gridState.map((rowArray, rowIndex) => rowArray.map((cellState: CellState, columnIndex: number) => <DropAwareCell key={`${rowIndex}${columnIndex}`} rowIndex={rowIndex} columnIndex={columnIndex} />))
+        gridState.map((rowArray, rowIndex) => rowArray.map((cellState: CellState, columnIndex: number) => <DropAwareCell id={id} rowIndex={rowIndex} columnIndex={columnIndex} key={`${rowIndex}${columnIndex}`} />))
       }
     </div>
   );

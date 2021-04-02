@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import classNames from 'classnames';
+import { GameContext } from '../../../GameStore';
 import Cell from './Cell';
 import Ship from '../../ship/index';
 import { ICellProps } from './Cell.model';
-import { ItemTypes, IDragItem, DefaultGridDimesions } from '../../../App.model';
+import {
+  ItemTypes,
+  IDragItem,
+  DefaultGridDimesions,
+  IDragCollectionItem,
+} from '../../../App.model';
 import { hasCollisionPath } from '../../../utils/index';
 import styles from './Cell.module.scss';
 
@@ -12,39 +18,37 @@ export default function DropAwareCell({
   rowIndex,
   columnIndex,
   isShip = false,
-  cellState,
-  updateGridState,
-  gridState,
+  id,
 }: ICellProps) {
-  const [item, setItem] = useState<IDragItem>({ length: 0, orientation: 'horizontal', id: '' });
+  const { state } = useContext(GameContext);
+  const playerState = state[id];
   const [showDropPlaceholder, setShowDropPlaceholder] = useState(false);
   const [, drop] = useDrop(() => ({
     accept: ItemTypes.Ship,
-    drop: (draggedItem: IDragItem) => {
-      if (draggedItem) {
-        setItem(draggedItem);
-      }
-      return {
-        rowIndex,
-        columnIndex,
-        cellState: {
-          state: 1,
-          isTarget: true,
+    drop: (draggedItem: IDragItem): IDragCollectionItem => ({
+      rowIndex,
+      columnIndex,
+      cellState: {
+        state: 1,
+        isTarget: true,
+        ship: {
+          id: draggedItem.id,
+          length: draggedItem.length,
+          orientation: draggedItem.orientation,
         },
-      };
-    },
+      },
+    }),
     collect: (monitor) => {
       const isOverCell = monitor.isOver();
       if (isOverCell) {
         const shipItem: IDragItem = monitor.getItem();
         const isColliding = hasCollisionPath(
-          gridState,
+          playerState.gridState,
           rowIndex,
           columnIndex,
           shipItem.orientation,
           shipItem.length,
         );
-        setItem(shipItem);
         setShowDropPlaceholder(isOverCell && !isColliding);
       } else {
         setShowDropPlaceholder(false);
@@ -55,7 +59,7 @@ export default function DropAwareCell({
     },
     canDrop: (shipItem) => {
       const isColliding = hasCollisionPath(
-        gridState,
+        playerState.gridState,
         rowIndex,
         columnIndex,
         shipItem.orientation,
@@ -74,33 +78,34 @@ export default function DropAwareCell({
     [styles.showDropPlaceholder]: showDropPlaceholder,
   });
 
+  const { isTarget, ship, state: cellStateValue } = playerState.gridState[rowIndex][columnIndex];
+
   return (
-    <div ref={cellState?.state === 0 ? drop : null} className={classesMainWrapper}>
+    <div ref={cellStateValue === 0 ? drop : null} className={classesMainWrapper}>
       <Cell
         isShip={isShip}
         rowIndex={rowIndex}
         columnIndex={columnIndex}
-        cellState={cellState}
-        updateGridState={updateGridState}
+        id={id}
       />
       {
-        cellState?.isTarget ? (
+        isTarget && ship ? (
           <Ship
-            updateGridState={updateGridState}
-            length={item.length}
-            orientation={item.orientation}
-            id={item.id}
+            playerId={id}
+            length={ship.length}
+            orientation={ship.orientation}
+            id={ship.id}
             isPlacedOnGrid
           />
         ) : null
       }
       {
-        showDropPlaceholder ? (
+        showDropPlaceholder && ship ? (
           <div
             className={classesPlaceholder}
             style={{
-              height: item.orientation === 'vertical' ? DefaultGridDimesions.CellSize * item.length : DefaultGridDimesions.CellSize,
-              width: item.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * item.length : DefaultGridDimesions.CellSize,
+              height: ship.orientation === 'vertical' ? DefaultGridDimesions.CellSize * ship.length : DefaultGridDimesions.CellSize,
+              width: ship.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * ship.length : DefaultGridDimesions.CellSize,
             }}
           />
         ) : null

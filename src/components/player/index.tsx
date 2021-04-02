@@ -10,7 +10,6 @@ import styles from './Player.module.scss';
 import { GameContext } from '../../GameStore';
 
 const Player = ({ id }: IPlayerProps) => {
-
   const { state } = useContext(GameContext);
   const { isActive } = state[id];
   return (
@@ -21,11 +20,11 @@ const Player = ({ id }: IPlayerProps) => {
             <div className={styles.playerWrapperMain}>
               <h2>Battleship</h2>
               <div className={styles.playerView}>
-                <Ship id="qwdqwe12312312"  length={2} orientation="horizontal" />
+                <Ship playerId={id} id="qwdqwe12312312" length={2} orientation="horizontal" />
                 <p>---</p>
-                <Ship id="qwnmqnjkh1237897918237"  length={3} orientation="vertical" />
+                <Ship playerId={id} id="qwnmqnjkh1237897918237" length={3} orientation="vertical" />
                 <p>----</p>
-                <Ship id="12iy381937uyhkjn"  length={5} orientation="horizontal" />
+                <Ship playerId={id} id="12iy381937uyhkjn" length={5} orientation="horizontal" />
                 <p>----</p>
                 <GridWrapper id={id} />
               </div>

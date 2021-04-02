@@ -3,10 +3,10 @@ import {
   GameState,
   PlayerIdentifiers,
   IStoreProps,
-  Action,
 } from './App.model';
 import Reducer from './Reducer';
 import { getBaseGridState } from './utils';
+import { Action } from './Actions';
 
 const initialState: GameState = {
   [PlayerIdentifiers.FIRST]: {
