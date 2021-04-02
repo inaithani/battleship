@@ -27,4 +27,14 @@
     margin-bottom: 30px;
     
   }
+
+  .inGameViewContainer {
+    display: flex;
+    justify-content: space-evenly;
+    .ownGrid, .opponentGrid {
+      .infoText {
+        text-align: center;
+      }
+    }
+  }
 }

@@ -7,7 +7,7 @@ import { GameContext } from '../../../GameStore';
 
 export default function BaseGrid({ id }: IBaseGridProps) {
   const { state } = useContext(GameContext);
-  const { gridState } = state[id];
+  const { gridState } = state.players[id];
   const { Columns, CellSize } = DefaultGridDimesions;
   const baseGridWith = (Columns * CellSize) + (Columns - 1);
 

@@ -7,8 +7,10 @@ import styles from './Game.module.scss';
 
 const Game = () => {
   const { state, dispatch } = useContext(GameContext);
-  const isFirstPlayerActive = state[PlayerIdentifiers.FIRST].isActive;
-  const isSecondPlayerActive = state[PlayerIdentifiers.SECOND].isActive;
+  const isFirstPlayerActive = state.players[PlayerIdentifiers.FIRST].isActive;
+  const isSecondPlayerActive = state.players[PlayerIdentifiers.SECOND].isActive;
+  const { started } = state;
+
   const move = () => {
     const { FIRST, SECOND } = PlayerIdentifiers;
     const id = isFirstPlayerActive ? SECOND : FIRST;
@@ -21,7 +23,17 @@ const Game = () => {
   };
 
   const startGame = () => {
+    dispatch({
+      type: ActionKind.StartGame,
+      payload: {},
+    });
 
+    dispatch({
+      type: ActionKind.SetActivePlayer,
+      payload: {
+        id: PlayerIdentifiers.FIRST,
+      },
+    });
   };
 
   return (
@@ -30,12 +42,16 @@ const Game = () => {
       <Player id={PlayerIdentifiers.SECOND} />
 
       <div className={styles.actionBar}>
-        <button type="button" onClick={move}>
-          Grid Setup for
-          { isFirstPlayerActive ? ' First Player' : ' Second Player' }
-        </button>
         {
-          isSecondPlayerActive ? (
+          !started ? (
+            <button type="button" onClick={move}>
+              Grid Setup for
+              { isFirstPlayerActive ? ' First Player' : ' Second Player' }
+            </button>
+          ) : null
+        }
+        {
+          isSecondPlayerActive && !started ? (
             <button className={styles.start} onClick={startGame} type="button">
               Start Game
             </button>

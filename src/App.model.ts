@@ -62,7 +62,10 @@ export interface IPlayerGameState {
 }
 
 export interface GameState {
-  [key: string]: IPlayerGameState
+  players: {
+    [key: string]: IPlayerGameState,
+  },
+  started: boolean,
 }
 
 export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>

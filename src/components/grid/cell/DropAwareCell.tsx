@@ -21,7 +21,7 @@ export default function DropAwareCell({
   id,
 }: ICellProps) {
   const { state } = useContext(GameContext);
-  const playerState = state[id];
+  const playerState = state.players[id];
   const [showDropPlaceholder, setShowDropPlaceholder] = useState(false);
   const [currentDraggedShip, setCurrentDraggedShip] = useState<IDragItem | null>(null);
   const [, drop] = useDrop(() => ({

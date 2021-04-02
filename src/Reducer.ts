@@ -15,7 +15,7 @@ const Reducer = (state: GameState, action: Action): GameState => {
         cellState,
         id,
       }: IUpdateCellAction = action.payload;
-      newState[id].gridState[rowIndex][columnIndex] = cellState;
+      newState.players[id].gridState[rowIndex][columnIndex] = cellState;
       return newState;
     }
 
@@ -23,12 +23,20 @@ const Reducer = (state: GameState, action: Action): GameState => {
       const newState = { ...state };
       const { id } = action.payload;
 
-      newState[PlayerIdentifiers.FIRST].isActive = false;
-      newState[PlayerIdentifiers.SECOND].isActive = false;
-      newState[id].isActive = true;
+      newState.players[PlayerIdentifiers.FIRST].isActive = false;
+      newState.players[PlayerIdentifiers.SECOND].isActive = false;
+      newState.players[id].isActive = true;
 
       return newState;
     }
+
+    case ActionKind.StartGame: {
+      const newState = { ...state };
+      newState.started = true;
+
+      return newState;
+    }
+
     default: return state;
   }
 };

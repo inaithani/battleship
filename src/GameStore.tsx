@@ -9,14 +9,17 @@ import { getBaseGridState } from './utils';
 import { Action } from './Actions';
 
 const initialState: GameState = {
-  [PlayerIdentifiers.FIRST]: {
-    gridState: getBaseGridState(10, 10),
-    isActive: true,
+  players: {
+    [PlayerIdentifiers.FIRST]: {
+      gridState: getBaseGridState(10, 10),
+      isActive: true,
+    },
+    [PlayerIdentifiers.SECOND]: {
+      gridState: getBaseGridState(10, 10),
+      isActive: false,
+    },
   },
-  [PlayerIdentifiers.SECOND]: {
-    gridState: getBaseGridState(10, 10),
-    isActive: false,
-  },
+  started: false,
 };
 
 const GameStore = ({ children }: IStoreProps) => {
