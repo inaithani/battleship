@@ -12,6 +12,7 @@ import { getCellsToUpdate } from '../../utils/index';
 import styles from './Ship.module.scss';
 
 export default function Ship({
+  id,
   length,
   orientation,
   updateGridState,
@@ -20,6 +21,7 @@ export default function Ship({
   const draggedItem: IDragItem = {
     orientation,
     length,
+    id,
   };
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.Ship,
@@ -32,10 +34,19 @@ export default function Ship({
       if (dropResult) {
         const { rowIndex, columnIndex } = dropResult;
         if (dropResult && updateGridState) {
-          const cellsToUpdate = getCellsToUpdate(orientation, rowIndex, columnIndex, length, 1);
+          const cellsToUpdate = getCellsToUpdate(
+            orientation,
+            rowIndex,
+            columnIndex,
+            length,
+            1,
+          );
           updateGridState(cellsToUpdate);
         }
       }
+    },
+    options: {
+      dropEffect: 'copy',
     },
   }));
   const shipArray = [...Array(length).fill(0, 0, length)];

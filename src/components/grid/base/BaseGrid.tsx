@@ -12,7 +12,7 @@ export default function BaseGrid({
   return (
     <div className={styles.main} style={{ width: baseGridWith, gridTemplateColumns: `repeat(${columns}, minmax(${DefaultGridDimesions.CellSize}px, 0fr))` }}>
       { // eslint-disable-next-line
-        gridState.map((rowArray, rowIndex) => rowArray.map((cellState: CellState, columnIndex: number) => <DropAwareCell cellState={cellState} key={`${rowIndex}${columnIndex}`} rowIndex={rowIndex} columnIndex={columnIndex} updateGridState={updateGridState} />))
+        gridState.map((rowArray, rowIndex) => rowArray.map((cellState: CellState, columnIndex: number) => <DropAwareCell gridState={gridState} cellState={cellState} key={`${rowIndex}${columnIndex}`} rowIndex={rowIndex} columnIndex={columnIndex} updateGridState={updateGridState} />))
       }
     </div>
   );

@@ -1,4 +1,5 @@
-import { GridState, CellState } from '../App.model';
+import { GridState, CellState, DefaultGridDimesions } from '../App.model';
+import { Orientation } from '../components/ship/Ship.model';
 
 export const getBaseGridState = (rows: number, columns: number): GridState => {
   const arrayState = new Array(rows);
@@ -49,4 +50,63 @@ export const getCellsToUpdate = (
 
   cellsToUpdate[0].isTarget = true;
   return cellsToUpdate;
+};
+
+const isShipOutOfBounds = (
+  rowIndex: number,
+  columnIndex: number,
+  orientation: Orientation,
+  length: number,
+) => {
+  let isOutOfBounds = false;
+  if (orientation === 'vertical') {
+    isOutOfBounds = (rowIndex + length) > DefaultGridDimesions.Rows;
+  } else {
+    isOutOfBounds = (columnIndex + length) > DefaultGridDimesions.Columns;
+  }
+
+  return isOutOfBounds;
+};
+
+export const hasCollisionPath = (
+  gridState: GridState | undefined,
+  rowIndex: number | undefined,
+  columnIndex: number | undefined,
+  orientation: Orientation,
+  length: number,
+): boolean => {
+  if (Array.isArray(gridState) && typeof rowIndex === 'number' && typeof columnIndex === 'number') {
+    const { state } = gridState[rowIndex][columnIndex];
+    if (state === 1) {
+      return true;
+    }
+
+    if (isShipOutOfBounds(rowIndex, columnIndex, orientation, length)) {
+      return true;
+    }
+
+    let collisionFound = false;
+    if (orientation === 'vertical') {
+      let n = rowIndex;
+      while (n < rowIndex + length) {
+        if (gridState[n][columnIndex].state === 1) {
+          collisionFound = true;
+          break;
+        }
+        n += 1;
+      }
+    } else {
+      let n = columnIndex;
+      while (n < columnIndex + length) {
+        if (gridState[rowIndex][n].state === 1) {
+          collisionFound = true;
+          break;
+        }
+        n += 1;
+      }
+    }
+    return collisionFound;
+  }
+
+  return true;
 };

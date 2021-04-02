@@ -12,7 +12,8 @@ export enum ItemTypes {
 
 export interface IDragItem {
   orientation: Orientation,
-  length: number
+  length: number,
+  id: string
 }
 export interface IDropResult {
   cellState: number,

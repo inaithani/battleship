@@ -5,6 +5,7 @@ import Cell from './Cell';
 import Ship from '../../ship/index';
 import { ICellProps } from './Cell.model';
 import { ItemTypes, IDragItem, DefaultGridDimesions } from '../../../App.model';
+import { hasCollisionPath } from '../../../utils/index';
 import styles from './Cell.module.scss';
 
 export default function DropAwareCell({
@@ -13,8 +14,9 @@ export default function DropAwareCell({
   isShip = false,
   cellState,
   updateGridState,
+  gridState,
 }: ICellProps) {
-  const [item, setItem] = useState<IDragItem>({ length: 0, orientation: 'horizontal' });
+  const [item, setItem] = useState<IDragItem>({ length: 0, orientation: 'horizontal', id: '' });
   const [showDropPlaceholder, setShowDropPlaceholder] = useState(false);
   const [, drop] = useDrop(() => ({
     accept: ItemTypes.Ship,
@@ -25,21 +27,42 @@ export default function DropAwareCell({
       return {
         rowIndex,
         columnIndex,
-        cellState,
+        cellState: {
+          state: 1,
+          isTarget: true,
+        },
       };
     },
     collect: (monitor) => {
       const isOverCell = monitor.isOver();
-
       if (isOverCell) {
-        setItem(monitor.getItem());
-        setShowDropPlaceholder(isOverCell);
+        const shipItem: IDragItem = monitor.getItem();
+        const isColliding = hasCollisionPath(
+          gridState,
+          rowIndex,
+          columnIndex,
+          shipItem.orientation,
+          shipItem.length,
+        );
+        setItem(shipItem);
+        setShowDropPlaceholder(isOverCell && !isColliding);
       } else {
         setShowDropPlaceholder(false);
       }
       return {
         isOver: isOverCell,
       };
+    },
+    canDrop: (shipItem) => {
+      const isColliding = hasCollisionPath(
+        gridState,
+        rowIndex,
+        columnIndex,
+        shipItem.orientation,
+        shipItem.length,
+      );
+      if (isColliding) return false;
+      return true;
     },
   }));
 
@@ -52,7 +75,7 @@ export default function DropAwareCell({
   });
 
   return (
-    <div ref={drop} className={classesMainWrapper}>
+    <div ref={cellState?.state === 0 ? drop : null} className={classesMainWrapper}>
       <Cell
         isShip={isShip}
         rowIndex={rowIndex}
@@ -66,6 +89,7 @@ export default function DropAwareCell({
             updateGridState={updateGridState}
             length={item.length}
             orientation={item.orientation}
+            id={item.id}
             isPlacedOnGrid
           />
         ) : null

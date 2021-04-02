@@ -1,4 +1,4 @@
-import { CellState } from '../../../App.model';
+import { CellState, GridState } from '../../../App.model';
 export interface ICellProps {
   rowIndex?: number,
   columnIndex?: number,
@@ -6,4 +6,5 @@ export interface ICellProps {
   isOver?: boolean,
   cellState?: CellState,
   updateGridState: Function | undefined,
+  gridState?: GridState
 }

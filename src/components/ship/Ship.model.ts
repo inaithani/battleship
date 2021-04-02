@@ -5,4 +5,5 @@ export interface ShipProps {
   orientation: Orientation,
   updateGridState?: Function,
   isPlacedOnGrid?: boolean,
+  id: string
 }

@@ -36,11 +36,11 @@ function App() {
       <div className={styles.app}>
         <h2>Battleship</h2>
         <div className={styles.playerView}>
-          <Ship updateGridState={updateGridState} length={1} orientation="vertical" />
+          <Ship id="qwdqwe12312312" updateGridState={updateGridState} length={1} orientation="vertical" />
           <p>---</p>
-          <Ship updateGridState={updateGridState} length={3} orientation="vertical" />
+          <Ship id="qwnmqnjkh1237897918237" updateGridState={updateGridState} length={3} orientation="vertical" />
           <p>----</p>
-          <Ship updateGridState={updateGridState} length={5} orientation="horizontal" />
+          <Ship id="12iy381937uyhkjn" updateGridState={updateGridState} length={5} orientation="horizontal" />
           <p>----</p>
           <GridWrapper gridState={gridState} updateGridState={updateGridState} />
         </div>
