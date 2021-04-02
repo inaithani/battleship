@@ -1,4 +1,4 @@
-import { CellState, GridState, PlayerIdentifiers } from '../../../App.model';
+import { CellState, PlayerIdentifiers } from '../../../App.model';
 
 export interface ICellProps {
   rowIndex: number,
@@ -6,7 +6,6 @@ export interface ICellProps {
   isShip?: boolean,
   isOver?: boolean,
   cellState?: CellState,
-  updateGridState?: Function | undefined,
-  gridState?: GridState
-  id: PlayerIdentifiers
+  id: PlayerIdentifiers,
+  hiddenViewMode?: boolean
 }

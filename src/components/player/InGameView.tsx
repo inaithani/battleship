@@ -11,7 +11,7 @@ const InGameView = ({ id }: { id: PlayerIdentifiers }) => {
         <p className={styles.infoText}>Your Grid</p>
       </div>
       <div className={styles.opponentGrid}>
-        <GridWrapper id={id === FIRST ? SECOND : FIRST} />
+        <GridWrapper id={id === FIRST ? SECOND : FIRST} hiddenViewMode />
         <p className={styles.infoText}>Opponent&lsquo;s Grid</p>
       </div>
     </div>

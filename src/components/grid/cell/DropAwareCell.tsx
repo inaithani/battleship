@@ -19,6 +19,7 @@ export default function DropAwareCell({
   columnIndex,
   isShip = false,
   id,
+  hiddenViewMode = false,
 }: ICellProps) {
   const { state } = useContext(GameContext);
   const playerState = state.players[id];
@@ -89,6 +90,7 @@ export default function DropAwareCell({
         rowIndex={rowIndex}
         columnIndex={columnIndex}
         id={id}
+        hiddenViewMode={hiddenViewMode}
       />
       {
         isTarget && ship ? (
@@ -98,6 +100,7 @@ export default function DropAwareCell({
             orientation={ship.orientation}
             id={ship.id}
             isPlacedOnGrid
+            hiddenViewMode={hiddenViewMode}
           />
         ) : null
       }

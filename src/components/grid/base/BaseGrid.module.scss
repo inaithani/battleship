@@ -7,6 +7,11 @@
     padding: 20px 10px;
   }
 
+  &.hiddenViewMode {
+    background-color: darken(#e0e0e0, 10);
+    border-color: darken(#e0e0e0, 10);
+  }
+
   > div > div {
     aspect-ratio: 1;
   }

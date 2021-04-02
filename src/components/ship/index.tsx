@@ -19,8 +19,9 @@ export default function Ship({
   orientation,
   isPlacedOnGrid = false,
   playerId,
+  hiddenViewMode = false,
 }: ShipModel.ShipProps) {
-  const { dispatch } = useContext(GameContext);
+  const { state, dispatch } = useContext(GameContext);
   const draggedItem: IDragItem = {
     orientation,
     length,
@@ -47,9 +48,10 @@ export default function Ship({
   const shipClasses = classNames({
     [styles[`ship${orientation}`]]: true,
     [styles.isPlacedOnGrid]: isPlacedOnGrid,
+    [styles.hiddenViewMode]: hiddenViewMode,
   });
   return (
-    <div ref={drag} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>
+    <div ref={!state.started ? drag : null} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>
       {
         shipArray.map((el, index) => <ShipCell key={`${orientation}-${el + index}`} />)
       }
