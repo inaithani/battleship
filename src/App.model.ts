@@ -1,4 +1,4 @@
-import { Orientation } from './components/ship/Ship.model';
+import { Orientation, Ship } from './components/ship/Ship.model';
 
 export enum DefaultGridDimesions {
   Rows = 10,
@@ -27,6 +27,7 @@ export type StateValue = 0 | 1;
 export type CellState = {
   isTarget: boolean,
   state: StateValue,
+  ship: Ship | null,
 };
 
 export type GridState = Array<Array<CellState>>;
@@ -36,6 +37,7 @@ export interface IGridStateUpdateObject {
   columnIndex: number,
   rowIndex: number,
   isTarget: boolean,
+  ship: Ship,
 }
 
 export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>

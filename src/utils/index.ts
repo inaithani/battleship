@@ -1,4 +1,9 @@
-import { GridState, CellState, DefaultGridDimesions } from '../App.model';
+import {
+  GridState,
+  CellState,
+  DefaultGridDimesions,
+  IGridStateUpdateObjects,
+} from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
 export const getBaseGridState = (rows: number, columns: number): GridState => {
@@ -6,6 +11,7 @@ export const getBaseGridState = (rows: number, columns: number): GridState => {
   const defaultCellState: CellState = {
     state: 0,
     isTarget: false,
+    ship: null,
   };
 
   for (let i = 0; i < arrayState.length; i += 1) {
@@ -109,4 +115,28 @@ export const hasCollisionPath = (
   }
 
   return true;
+};
+
+export const getUpdatedGridState = (
+  gridStateUpdateObjects: IGridStateUpdateObjects,
+  gridState: GridState,
+) => {
+  const newState = [...gridState];
+
+  gridStateUpdateObjects.forEach((gridStateUpdateObject) => {
+    const {
+      state,
+      rowIndex,
+      columnIndex,
+      isTarget = false,
+      ship,
+    } = gridStateUpdateObject;
+    newState[rowIndex][columnIndex] = {
+      isTarget,
+      state,
+      ship,
+    };
+  });
+
+  return newState;
 };
