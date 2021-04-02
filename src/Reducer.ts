@@ -1,4 +1,4 @@
-import { GameState } from './App.model';
+import { GameState, PlayerIdentifiers } from './App.model';
 import {
   Action,
   ActionKind,
@@ -16,6 +16,17 @@ const Reducer = (state: GameState, action: Action): GameState => {
         id,
       }: IUpdateCellAction = action.payload;
       newState[id].gridState[rowIndex][columnIndex] = cellState;
+      return newState;
+    }
+
+    case ActionKind.SetActivePlayer: {
+      const newState = { ...state };
+      const { id } = action.payload;
+
+      newState[PlayerIdentifiers.FIRST].isActive = false;
+      newState[PlayerIdentifiers.SECOND].isActive = false;
+      newState[id].isActive = true;
+
       return newState;
     }
     default: return state;

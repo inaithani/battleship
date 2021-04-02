@@ -1,11 +1,14 @@
 import Game from './components/game/index';
 import GameStore from './GameStore';
+import styles from './App.module.scss';
 
 function App() {
   return (
-    <GameStore>
-      <Game />
-    </GameStore>
+    <div className={styles.app}>
+      <GameStore>
+        <Game />
+      </GameStore>
+    </div>
   );
 }
 

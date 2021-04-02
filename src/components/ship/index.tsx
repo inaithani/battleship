@@ -10,7 +10,6 @@ import {
   IDragItem,
   IDragCollectionItem,
 } from '../../App.model';
-import { ActionKind } from '../../Actions';
 import styles from './Ship.module.scss';
 import { dispatchUpdateCell } from '../../utils';
 

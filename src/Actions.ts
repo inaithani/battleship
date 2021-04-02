@@ -1,4 +1,4 @@
-import { IDropResult, PlayerIdentifiers, StateValue } from './App.model';
+import { IDropResult, PlayerIdentifiers } from './App.model';
 
 /* eslint-disable no-shadow */
 export enum ActionKind {

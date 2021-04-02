@@ -1,0 +1,18 @@
+.actionBar {
+  margin-top: 30px;
+  margin-left: 35%;
+
+  button {
+    margin-left: 6px;
+    border: 2px solid darken(#00f, 20);;
+    background-color: white;
+    color: black;
+    padding: 6px 10px;
+    font-size: 16px;
+
+    &.start {
+      border-color: #4CAF50;
+      color: green;
+    }
+  }
+}

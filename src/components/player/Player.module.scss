@@ -1,3 +1,30 @@
 .playerWrapperMain {
   margin: 20px;
+  .playerPane {
+    display: flex;
+
+    .playerPaneLeft {
+      width: 35%;
+      .shipsContainer {
+        display: flex;
+        margin-bottom: 30px;
+
+        > div {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .playerPaneRight {
+      width: 65%;
+    }
+  }
+  .playerHeading {
+    text-align: center;
+    color: darken(#00f, 20);
+    border-bottom: 1px solid darken(#00f, 20);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    
+  }
 }
