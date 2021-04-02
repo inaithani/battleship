@@ -3,7 +3,6 @@ import {
   GridState,
   CellState,
   DefaultGridDimesions,
-  IGridStateUpdateObjects,
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
@@ -13,6 +12,7 @@ export const getBaseGridState = (rows: number, columns: number): GridState => {
     state: 0,
     isTarget: false,
     ship: null,
+    shipId: '',
   };
 
   for (let i = 0; i < arrayState.length; i += 1) {
@@ -122,36 +122,13 @@ export const hasCollisionPath = (
   return true;
 };
 
-export const getUpdatedGridState = (
-  gridStateUpdateObjects: IGridStateUpdateObjects,
-  gridState: GridState,
-) => {
-  const newState = [...gridState];
-
-  gridStateUpdateObjects.forEach((gridStateUpdateObject) => {
-    const {
-      state,
-      rowIndex,
-      columnIndex,
-      isTarget = false,
-      ship,
-    } = gridStateUpdateObject;
-    newState[rowIndex][columnIndex] = {
-      isTarget,
-      state,
-      ship,
-    };
-  });
-
-  return newState;
-};
-
 export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellAction): void => {
   const {
     rowIndex,
     cellState,
     columnIndex,
     id,
+    shipId,
   } = payload;
 
   if (cellState.ship) {
@@ -165,16 +142,18 @@ export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellActio
       isTarget: false,
       ship: null,
       state: 1,
+      shipId: cellState.ship.id,
     };
 
     while (n < indexToUse + cellState.ship.length) {
       dispatch({
-        type: ActionKind.UpdateCell,
+        type: ActionKind.UpdateShipLocation,
         payload: {
           rowIndex: orientation === 'vertical' ? n : rowIndex,
           columnIndex: orientation === 'horizontal' ? n : columnIndex,
           cellState: n === indexToUse ? cellState : siblingCellBusy,
           id,
+          shipId,
         },
       });
       n += 1;

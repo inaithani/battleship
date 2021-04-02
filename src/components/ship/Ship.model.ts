@@ -2,10 +2,10 @@ import { PlayerIdentifiers } from '../../App.model';
 
 export type Orientation = 'vertical' | 'horizontal';
 export interface ShipProps extends Ship {
-  updateGridState?: Function,
   isPlacedOnGrid?: boolean,
   playerId: PlayerIdentifiers,
   hiddenViewMode?: boolean,
+  sunken?: boolean,
 }
 export interface Ship {
   length: number,

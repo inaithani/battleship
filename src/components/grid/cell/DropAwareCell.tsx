@@ -38,6 +38,7 @@ export default function DropAwareCell({
           length: draggedItem.length,
           orientation: draggedItem.orientation,
         },
+        shipId: draggedItem.id,
       },
     }),
     collect: (monitor) => {
@@ -81,7 +82,18 @@ export default function DropAwareCell({
     [styles.showDropPlaceholder]: showDropPlaceholder,
   });
 
-  const { isTarget, ship, state: cellStateValue } = playerState.gridState[rowIndex][columnIndex];
+  const {
+    isTarget,
+    ship,
+    shipId,
+    state: cellStateValue,
+  } = playerState.gridState[rowIndex][columnIndex];
+
+  let sunken = false;
+
+  if (typeof playerState.shipTracker[shipId] !== 'undefined') {
+    sunken = playerState.shipTracker[shipId].sunken;
+  }
 
   return (
     <div ref={cellStateValue === 0 ? drop : null} className={classesMainWrapper}>
@@ -101,6 +113,7 @@ export default function DropAwareCell({
             id={ship.id}
             isPlacedOnGrid
             hiddenViewMode={hiddenViewMode}
+            sunken={sunken}
           />
         ) : null
       }

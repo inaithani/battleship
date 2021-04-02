@@ -12,6 +12,7 @@ import {
 } from '../../App.model';
 import styles from './Ship.module.scss';
 import { dispatchUpdateCell } from '../../utils';
+import { ActionKind } from '../../Actions';
 
 export default function Ship({
   id,
@@ -20,6 +21,7 @@ export default function Ship({
   isPlacedOnGrid = false,
   playerId,
   hiddenViewMode = false,
+  sunken = false,
 }: ShipModel.ShipProps) {
   const { state, dispatch } = useContext(GameContext);
   const draggedItem: IDragItem = {
@@ -36,7 +38,24 @@ export default function Ship({
     end: (item: IDragItem, monitor: DragSourceMonitor) => {
       const dropResult: IDragCollectionItem | null = monitor.getDropResult();
       if (dropResult) {
-        dispatchUpdateCell(dispatch, { ...dropResult, id: playerId });
+        const shipTracker = state.players[playerId].shipTracker[id];
+        if (typeof shipTracker !== 'undefined') {
+          const previousLocations = shipTracker.locations;
+          previousLocations.map((previousLocation) => {
+            const { row, column } = previousLocation;
+            dispatch({
+              type: ActionKind.ClearShipLocation,
+              payload: {
+                rowIndex: row,
+                columnIndex: column,
+                id: playerId,
+              },
+            });
+          });
+        }
+
+        dispatch({ type: ActionKind.InitializeShipTraker, payload: { id: playerId, shipId: id } });
+        dispatchUpdateCell(dispatch, { ...dropResult, id: playerId, shipId: id });
       }
     },
     options: {
@@ -48,7 +67,8 @@ export default function Ship({
   const shipClasses = classNames({
     [styles[`ship${orientation}`]]: true,
     [styles.isPlacedOnGrid]: isPlacedOnGrid,
-    [styles.hiddenViewMode]: hiddenViewMode,
+    [styles.hiddenViewMode]: hiddenViewMode && !sunken,
+    [styles.sunken]: sunken,
   });
   return (
     <div ref={!state.started ? drag : null} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>

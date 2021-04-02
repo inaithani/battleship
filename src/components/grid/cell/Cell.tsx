@@ -24,16 +24,42 @@ export default function Cell({
 
   const fired = () => {
     const currentCellState = { ...state.players[id].gridState[rowIndex][columnIndex] };
+    const { locations } = { ...state.players[id].shipTracker[currentCellState.shipId] };
     currentCellState.state = currentCellState.state === 1 ? 2 : 3;
     dispatch({
-      type: ActionKind.UpdateCell,
+      type: ActionKind.SetCellHitMissState,
       payload: {
+        id,
         rowIndex,
         columnIndex,
-        cellState: { ...currentCellState },
-        id,
+        cellState: currentCellState,
       },
     });
+
+    if (Array.isArray(locations) && locations.length) {
+      let sunken = true;
+
+      for (let i = 0; i < locations.length; i += 1) {
+        const { row, column } = locations[i];
+        if (row === rowIndex && column === columnIndex) {
+          locations[i].hit = true;
+        }
+
+        if (!locations[i].hit) {
+          sunken = false;
+        }
+      }
+
+      dispatch({
+        type: ActionKind.UpdateShipTracker,
+        payload: {
+          locations,
+          sunken,
+          id,
+          shipId: currentCellState.shipId,
+        },
+      });
+    }
   };
 
   return (
@@ -45,10 +71,10 @@ export default function Cell({
         hiddenViewMode && cellState.state !== 2 && cellState.state !== 3 ? <button onClick={fired} type="button" className={styles.cellButton}>&nbsp;</button> : null
       }
       {
-        cellState.state === 2 ? <>HIT</> : null
+        cellState.state === 2 ? <>H</> : null
       }
       {
-        cellState.state === 3 ? <>MISS</> : null
+        cellState.state === 3 ? <>M</> : null
       }
     </div>
   );

@@ -35,6 +35,7 @@ export type CellState = {
   isTarget: boolean,
   state: StateValue,
   ship: Ship | null,
+  shipId: string,
 };
 
 export type GridState = Array<Array<CellState>>;
@@ -56,9 +57,22 @@ export interface IStoreProps {
   children: ReactNode,
 }
 
+export interface IShipLocation {
+  row: number,
+  column: number,
+  hit: boolean
+}
+
+export interface IShipTracker {
+  [key: string]: {
+    sunken: boolean,
+    locations: Array<IShipLocation>
+  }
+}
 export interface IPlayerGameState {
-    isActive: boolean,
-    gridState: GridState
+    isActive: boolean;
+    gridState: GridState;
+    shipTracker: IShipTracker;
 }
 
 export interface GameState {
