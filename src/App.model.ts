@@ -29,7 +29,7 @@ export interface IDropResult {
   rowIndex: number
 }
 
-export type StateValue = 0 | 1;
+export type StateValue = 0 | 1 | 2 | 3; // 0 - Empty, 1 - Busy, 2 - HIT, 3 - MISS
 
 export type CellState = {
   isTarget: boolean,

@@ -4,6 +4,7 @@ import { ICellProps } from './Cell.model';
 import styles from './Cell.module.scss';
 import { DefaultGridDimesions } from '../../../App.model';
 import { GameContext } from '../../../GameStore';
+import { ActionKind } from '../../../Actions';
 
 export default function Cell({
   isShip = false,
@@ -13,6 +14,7 @@ export default function Cell({
   id,
 }: ICellProps) {
   const { state, dispatch } = useContext(GameContext);
+  const cellState = state.players[id].gridState[rowIndex][columnIndex];
   const size = DefaultGridDimesions.CellSize;
   const cellStyles = isShip ? { width: size - 2, height: size - 2 } : {};
   const cellClasses = classNames({
@@ -21,10 +23,17 @@ export default function Cell({
   });
 
   const fired = () => {
-    console.log('rowIndex : ', rowIndex);
-    console.log('columnIndex : ', columnIndex);
-    console.log('cellState : ', state.players[id].gridState[rowIndex][columnIndex]);
-    console.log('id : ', id);
+    const currentCellState = { ...state.players[id].gridState[rowIndex][columnIndex] };
+    currentCellState.state = currentCellState.state === 1 ? 2 : 3;
+    dispatch({
+      type: ActionKind.UpdateCell,
+      payload: {
+        rowIndex,
+        columnIndex,
+        cellState: { ...currentCellState },
+        id,
+      },
+    });
   };
 
   return (
@@ -33,7 +42,13 @@ export default function Cell({
       style={cellStyles}
     >
       {
-        hiddenViewMode ? <button onClick={fired} type="button" className={styles.cellButton}>&nbsp;</button> : null
+        hiddenViewMode && cellState.state !== 2 && cellState.state !== 3 ? <button onClick={fired} type="button" className={styles.cellButton}>&nbsp;</button> : null
+      }
+      {
+        cellState.state === 2 ? <>HIT</> : null
+      }
+      {
+        cellState.state === 3 ? <>MISS</> : null
       }
     </div>
   );
