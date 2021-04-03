@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import classNames from 'classnames';
 import { ICellProps } from './Cell.model';
 import styles from './Cell.module.scss';
-import { DefaultGridDimesions, PlayerIdentifiers } from '../../../App.model';
+import { DefaultGridDimesions } from '../../../App.model';
 import { GameContext } from '../../../GameStore';
 import { fire } from './helpers';
 import { toggleIsFireEnabled, setCurrentTurn, toggleNextTurnButton } from '../../../utils/index';
@@ -21,6 +21,7 @@ export default function Cell({
   const cellClasses = classNames({
     [styles.cell]: true,
     [styles.isShip]: isShip,
+    [styles.hit]: cellState.state === 2,
   });
 
   const prepareToFire = () => {
@@ -44,10 +45,10 @@ export default function Cell({
         enableFireButton ? <button onClick={prepareToFire} type="button" className={styles.cellButton}>&nbsp;</button> : null
       }
       {
-        cellState.state === 2 ? <>H</> : null
+        cellState.state === 2 ? <div className={styles.cellHit}>&#x2715;</div> : null
       }
       {
-        cellState.state === 3 ? <>M</> : null
+        cellState.state === 3 ? <div className={styles.missed}>&sdot;</div> : null
       }
     </div>
   );
