@@ -20,6 +20,21 @@
 .shipCell {
   background-color: #fff;
   border: 1px solid #b4b4ff;
+  
+  &.horizontal {
+    border-right: none;
+    &:last-child {
+      border-right: 1px solid #b4b4ff;
+    }
+  }
+
+  &.vertical {
+    border-bottom: none;
+    &:last-child {
+      border-bottom: 1px solid #b4b4ff;
+    }
+  }
+
   cursor: move;
   &.shipCellDisabled {
     border-color: #e0e0e0;
@@ -29,6 +44,9 @@
   &.inGrid {
     border: none;
     background: transparent;
+    &.horizontal, &.vertical {
+      border: none;
+    }
   }
 }
 

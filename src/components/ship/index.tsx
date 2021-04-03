@@ -81,7 +81,7 @@ export default function Ship({
       }}
     >
       {
-        shipArray.map((el, index) => <ShipCell key={`${orientation}-${el + index}`} isPlacedOnGrid={isPlacedOnGrid} />)
+        shipArray.map((el, index) => <ShipCell key={`${orientation}-${el + index}`} isPlacedOnGrid={isPlacedOnGrid} orientation={orientation} />)
       }
     </div>
   );

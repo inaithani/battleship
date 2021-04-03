@@ -16,6 +16,7 @@ export interface Ship {
 export interface IShipCellProps {
   disabled?: boolean;
   isPlacedOnGrid?: boolean;
+  orientation?: Orientation;
 }
 
 export interface IShipSchema {
