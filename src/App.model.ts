@@ -29,7 +29,13 @@ export interface IDropResult {
   rowIndex: number
 }
 
-export type StateValue = 0 | 1 | 2 | 3; // 0 - Empty, 1 - Busy, 2 - HIT, 3 - MISS
+// 0 - Empty, 1 - Busy, 2 - HIT, 3 - MISS
+export enum StateValue {
+  CELL_EMPTY = 0,
+  CELL_BUSY = 1,
+  CELL_HIT = 2,
+  CELL_MISS = 3
+}
 
 export type CellState = {
   isTarget: boolean,

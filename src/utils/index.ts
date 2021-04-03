@@ -5,6 +5,7 @@ import {
   CellState,
   DefaultGridDimesions,
   PlayerIdentifiers,
+  StateValue,
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
@@ -23,46 +24,6 @@ export const getBaseGridState = (rows: number, columns: number): GridState => {
   }
 
   return arrayState;
-};
-
-export const getCellsToUpdate = (
-  orientation: any,
-  rowIndex: number,
-  columnIndex: number,
-  length: number,
-  state = 1,
-  ship: any,
-) => {
-  const cellsToUpdate = [];
-  if (length === 1) {
-    return [{
-      state: 1,
-      rowIndex,
-      columnIndex,
-      isTarget: true,
-      ship,
-    }];
-  }
-
-  const isVertical = orientation === 'vertical';
-
-  let n = isVertical ? rowIndex : columnIndex;
-  const indexToUse = isVertical ? rowIndex : columnIndex;
-
-  while (n < indexToUse + length) {
-    cellsToUpdate.push({
-      state,
-      rowIndex: orientation === 'vertical' ? n : rowIndex,
-      columnIndex: orientation === 'horizontal' ? n : columnIndex,
-      isTarget: false,
-      ship: null,
-    });
-    n += 1;
-  }
-
-  cellsToUpdate[0].isTarget = true;
-  cellsToUpdate[0].ship = ship;
-  return cellsToUpdate;
 };
 
 const isShipOutOfBounds = (
@@ -90,7 +51,7 @@ export const hasCollisionPath = (
 ): boolean => {
   if (Array.isArray(gridState) && typeof rowIndex === 'number' && typeof columnIndex === 'number') {
     const { state } = gridState[rowIndex][columnIndex];
-    if (state === 1) {
+    if (state === StateValue.CELL_BUSY) {
       return true;
     }
 

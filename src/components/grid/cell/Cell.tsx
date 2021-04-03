@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import classNames from 'classnames';
 import { ICellProps } from './Cell.model';
 import styles from './Cell.module.scss';
-import { DefaultGridDimesions } from '../../../App.model';
+import { DefaultGridDimesions, StateValue } from '../../../App.model';
 import { GameContext } from '../../../GameStore';
 import { fire } from './helpers';
 import { toggleIsFireEnabled, setCurrentTurn, toggleNextTurnButton } from '../../../utils/index';
@@ -21,7 +21,7 @@ export default function Cell({
   const cellClasses = classNames({
     [styles.cell]: true,
     [styles.isShip]: isShip,
-    [styles.hit]: cellState.state === 2,
+    [styles.hit]: cellState.state === StateValue.CELL_HIT,
   });
 
   const prepareToFire = () => {
@@ -33,8 +33,8 @@ export default function Cell({
 
   const enableFireButton = hiddenViewMode
   && state.players[id].isFireEnabled
-  && cellState.state !== 2
-  && cellState.state !== 3;
+  && cellState.state !== StateValue.CELL_HIT
+  && cellState.state !== StateValue.CELL_MISS;
 
   return (
     <div
@@ -45,10 +45,12 @@ export default function Cell({
         enableFireButton ? <button onClick={prepareToFire} type="button" className={styles.cellButton}>&nbsp;</button> : null
       }
       {
-        cellState.state === 2 ? <div className={styles.cellHit}>&#x2715;</div> : null
+        cellState.state === StateValue.CELL_HIT
+          ? <div className={styles.cellHit}>&#x2715;</div> : null
       }
       {
-        cellState.state === 3 ? <div className={styles.missed}>&sdot;</div> : null
+        cellState.state === StateValue.CELL_MISS
+          ? <div className={styles.missed}>&sdot;</div> : null
       }
     </div>
   );

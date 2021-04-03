@@ -10,6 +10,7 @@ import {
   IDragItem,
   DefaultGridDimesions,
   IDragCollectionItem,
+  StateValue,
 } from '../../../App.model';
 import { hasCollisionPath } from '../../../utils/index';
 import styles from './Cell.module.scss';
@@ -96,7 +97,10 @@ export default function DropAwareCell({
   }
 
   return (
-    <div ref={cellStateValue === 0 ? drop : null} className={classesMainWrapper}>
+    <div
+      ref={cellStateValue === StateValue.CELL_EMPTY ? drop : null}
+      className={classesMainWrapper}
+    >
       <Cell
         isShip={isShip}
         rowIndex={rowIndex}

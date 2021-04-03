@@ -1,4 +1,4 @@
-import { GameState, PlayerIdentifiers } from './App.model';
+import { GameState, PlayerIdentifiers, StateValue } from './App.model';
 import {
   Action,
   ActionKind,
@@ -22,7 +22,7 @@ const Reducer = (state: GameState, action: Action): GameState => {
       newState.players[id].shipTracker[shipId].locations.push({
         column: columnIndex,
         row: rowIndex,
-        hit: cellState.state === 2,
+        hit: cellState.state === StateValue.CELL_HIT,
       });
       return newState;
     }
