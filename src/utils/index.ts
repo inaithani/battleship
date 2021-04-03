@@ -10,6 +10,52 @@ import {
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
+export const startGame = (dispatch: Dispatch<Action>) => {
+  dispatch({
+    type: ActionKind.StartGame,
+    payload: {},
+  });
+
+  dispatch({
+    type: ActionKind.SetActivePlayer,
+    payload: {
+      id: PlayerIdentifiers.FIRST,
+    },
+  });
+
+  toggleIsFireEnabled(dispatch, PlayerIdentifiers.SECOND, true);
+};
+
+export const turnChange = (dispatch: Dispatch<Action>, state: GameState) => {
+  dispatch({
+    type: ActionKind.SetActivePlayer,
+    payload: {
+      id: state.currentTurn,
+    },
+  });
+
+  let enableFireFor = PlayerIdentifiers.FIRST;
+
+  if (state.currentTurn === PlayerIdentifiers.FIRST) {
+    enableFireFor = PlayerIdentifiers.SECOND;
+  } else {
+    enableFireFor = PlayerIdentifiers.FIRST;
+  }
+
+  toggleNextTurnButton(dispatch, false);
+  toggleIsFireEnabled(dispatch, enableFireFor, true);
+};
+
+export const nextPlayerGameSetup = (dispatch: Dispatch<Action>, isFirstPlayerActive: boolean) => {
+  const id = isFirstPlayerActive ? PlayerIdentifiers.SECOND : PlayerIdentifiers.FIRST;
+  dispatch({
+    type: ActionKind.SetActivePlayer,
+    payload: {
+      id,
+    },
+  });
+};
+
 export const getBaseGridState = (rows: number, columns: number): GridState => {
   const arrayState = new Array(rows);
   const defaultCellState: CellState = {

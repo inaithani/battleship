@@ -2,9 +2,12 @@ import { useContext } from 'react';
 import Player from '../player/index';
 import { GameContext } from '../../GameStore';
 import { PlayerIdentifiers } from '../../App.model';
-import { ActionKind } from '../../Actions';
 import styles from './Game.module.scss';
-import { toggleIsFireEnabled, toggleNextTurnButton } from '../../utils/index';
+import {
+  startGame,
+  turnChange,
+  nextPlayerGameSetup,
+} from '../../utils/index';
 
 const Game = () => {
   const { state, dispatch } = useContext(GameContext);
@@ -14,49 +17,15 @@ const Game = () => {
   const { started, showNextTurnButton, currentTurn } = state;
 
   const moveSetupScreen = () => {
-    const id = isFirstPlayerActive ? SECOND : FIRST;
-    dispatch({
-      type: ActionKind.SetActivePlayer,
-      payload: {
-        id,
-      },
-    });
+    nextPlayerGameSetup(dispatch, isFirstPlayerActive);
   };
 
-  const startGame = () => {
-    dispatch({
-      type: ActionKind.StartGame,
-      payload: {},
-    });
-
-    dispatch({
-      type: ActionKind.SetActivePlayer,
-      payload: {
-        id: FIRST,
-      },
-    });
-
-    toggleIsFireEnabled(dispatch, SECOND, true);
+  const start = () => {
+    startGame(dispatch);
   };
 
-  const turnChange = () => {
-    dispatch({
-      type: ActionKind.SetActivePlayer,
-      payload: {
-        id: state.currentTurn,
-      },
-    });
-
-    let enableFireFor = FIRST;
-
-    if (currentTurn === FIRST) {
-      enableFireFor = SECOND;
-    } else {
-      enableFireFor = FIRST;
-    }
-
-    toggleNextTurnButton(dispatch, false);
-    toggleIsFireEnabled(dispatch, enableFireFor, true);
+  const nextTurn = () => {
+    turnChange(dispatch, state);
   };
 
   return (
@@ -78,14 +47,14 @@ const Game = () => {
         }
         {
           isSecondPlayerActive && !started ? (
-            <button className={styles.start} onClick={startGame} type="button">
+            <button className={styles.start} onClick={start} type="button">
               Start Game
             </button>
           ) : null
         }
         {
           showNextTurnButton ? (
-            <button className={styles.nextTurn} onClick={turnChange} type="button">
+            <button className={styles.nextTurn} onClick={nextTurn} type="button">
               Next Turn (
               { currentTurn === FIRST ? 'First PLayer' : 'Second Player' }
               )&nbsp;&#8594;
