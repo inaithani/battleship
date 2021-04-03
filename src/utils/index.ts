@@ -6,6 +6,7 @@ import {
   DefaultGridDimesions,
   PlayerIdentifiers,
   StateValue,
+  GameState,
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
@@ -160,4 +161,37 @@ export const toggleNextTurnButton = (
       showNextTurnButton,
     },
   });
+};
+
+export const checkPlayerVictory = (
+  dispatch: Dispatch<Action>,
+  state: GameState,
+  id: PlayerIdentifiers,
+) => {
+  const ships = state.players[id].shipTracker;
+  let allShipsSunken = true;
+
+  for (const shipId in ships) {
+    if (Object.hasOwnProperty.call(ships, shipId)) {
+      const { sunken } = ships[shipId];
+      allShipsSunken = sunken;
+    }
+  }
+
+  if (allShipsSunken) {
+    let winnerId = id;
+    if (id === PlayerIdentifiers.FIRST) {
+      winnerId = PlayerIdentifiers.SECOND;
+    } else {
+      winnerId = PlayerIdentifiers.FIRST;
+    }
+
+    dispatch({
+      type: ActionKind.CheckPlayerVictory,
+      payload: {
+        winner: allShipsSunken,
+        id: winnerId,
+      },
+    });
+  }
 };

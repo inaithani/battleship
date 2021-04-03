@@ -127,6 +127,16 @@ const Reducer = (state: GameState, action: Action): GameState => {
       return newState;
     }
 
+    case ActionKind.CheckPlayerVictory: {
+      const newState = { ...state };
+      const {
+        winner,
+        id,
+      } = action.payload;
+      newState.players[id].winner = winner;
+      return newState;
+    }
+
     default: return state;
   }
 };

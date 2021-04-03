@@ -12,6 +12,7 @@ export enum ActionKind {
   ToggleIsGridEnabled = 'TOGGLE_IS_GRID_ENABLED',
   SetCurrentTurn = 'SET_CURRENT_TURN',
   ToggleNextTurnButton = 'TOGGLE_NEXT_TURN_BUTTON',
+  CheckPlayerVictory = 'CHECK_PLAYER_VICTORY',
 }
 
 export type Action = {

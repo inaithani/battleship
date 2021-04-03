@@ -1,11 +1,16 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import classNames from 'classnames';
 import { ICellProps } from './Cell.model';
 import styles from './Cell.module.scss';
 import { DefaultGridDimesions, StateValue } from '../../../App.model';
 import { GameContext } from '../../../GameStore';
 import { fire } from './helpers';
-import { toggleIsFireEnabled, setCurrentTurn, toggleNextTurnButton } from '../../../utils/index';
+import {
+  toggleIsFireEnabled,
+  setCurrentTurn,
+  toggleNextTurnButton,
+  checkPlayerVictory,
+} from '../../../utils/index';
 
 export default function Cell({
   isShip = false,
@@ -23,6 +28,13 @@ export default function Cell({
     [styles.isShip]: isShip,
     [styles.hit]: cellState.state === StateValue.CELL_HIT,
   });
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (cellState.state === StateValue.CELL_HIT) {
+      checkPlayerVictory(dispatch, state, id);
+    }
+  }, [cellState.state === StateValue.CELL_HIT]);
 
   const prepareToFire = () => {
     fire(state, dispatch, id, rowIndex, columnIndex);

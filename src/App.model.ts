@@ -80,6 +80,7 @@ export interface IPlayerGameState {
     isFireEnabled: boolean;
     gridState: GridState;
     shipTracker: IShipTracker;
+    winner: boolean;
 }
 
 export interface GameState {
