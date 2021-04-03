@@ -1,9 +1,8 @@
-/* eslint-disable import/prefer-default-export */
 import { Dispatch } from 'react';
 import { ActionKind, Action } from '../../../Actions';
 import { GameState, IShipLocation, PlayerIdentifiers } from '../../../App.model';
 
-const dispatchUpdateShipTracker = (
+export const dispatchUpdateShipTracker = (
   dispatch: Dispatch<Action>,
   id: PlayerIdentifiers,
   locations: IShipLocation[],

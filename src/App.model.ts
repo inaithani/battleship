@@ -71,6 +71,7 @@ export interface IShipTracker {
 }
 export interface IPlayerGameState {
     isActive: boolean;
+    isFireEnabled: boolean;
     gridState: GridState;
     shipTracker: IShipTracker;
 }
@@ -79,7 +80,9 @@ export interface GameState {
   players: {
     [key: string]: IPlayerGameState,
   },
-  started: boolean,
+  started: boolean;
+  currentTurn: PlayerIdentifiers;
+  showNextTurnButton: boolean;
 }
 
 export type IGridStateUpdateObjects = Array<IGridStateUpdateObject>

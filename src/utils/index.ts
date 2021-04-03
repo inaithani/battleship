@@ -1,8 +1,10 @@
-import { ActionKind, IUpdateCellAction } from '../Actions';
+import { Dispatch } from 'react';
+import { Action, ActionKind, IUpdateCellAction } from '../Actions';
 import {
   GridState,
   CellState,
   DefaultGridDimesions,
+  PlayerIdentifiers,
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
 
@@ -159,4 +161,42 @@ export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellActio
       n += 1;
     }
   }
+};
+
+export const toggleIsFireEnabled = (
+  dispatch: Dispatch<Action>,
+  id: PlayerIdentifiers,
+  isFireEnabled: boolean,
+) => {
+  dispatch({
+    type: ActionKind.ToggleIsGridEnabled,
+    payload: {
+      id,
+      isFireEnabled,
+    },
+  });
+};
+
+export const setCurrentTurn = (
+  dispatch: Dispatch<Action>,
+  id: PlayerIdentifiers,
+) => {
+  dispatch({
+    type: ActionKind.SetCurrentTurn,
+    payload: {
+      id,
+    },
+  });
+};
+
+export const toggleNextTurnButton = (
+  dispatch: Dispatch<Action>,
+  showNextTurnButton: boolean,
+) => {
+  dispatch({
+    type: ActionKind.ToggleNextTurnButton,
+    payload: {
+      showNextTurnButton,
+    },
+  });
 };

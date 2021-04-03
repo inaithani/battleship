@@ -9,6 +9,9 @@ export enum ActionKind {
   UpdateShipTracker = 'UPDATE_SHIP_TRACKER',
   SetCellHitMissState = 'SET_CELL_HIT_MISS',
   ClearShipLocation = 'CLEAR_SHIP_LOCATION',
+  ToggleIsGridEnabled = 'TOGGLE_IS_GRID_ENABLED',
+  SetCurrentTurn = 'SET_CURRENT_TURN',
+  ToggleNextTurnButton = 'TOGGLE_NEXT_TURN_BUTTON',
 }
 
 export type Action = {

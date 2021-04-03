@@ -13,15 +13,19 @@ const initialState: GameState = {
     [PlayerIdentifiers.FIRST]: {
       gridState: getBaseGridState(10, 10),
       isActive: true,
+      isFireEnabled: false,
       shipTracker: {},
     },
     [PlayerIdentifiers.SECOND]: {
       gridState: getBaseGridState(10, 10),
       isActive: false,
+      isFireEnabled: false,
       shipTracker: {},
     },
   },
   started: false,
+  currentTurn: PlayerIdentifiers.FIRST,
+  showNextTurnButton: false,
 };
 
 const GameStore = ({ children }: IStoreProps) => {

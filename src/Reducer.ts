@@ -51,6 +51,33 @@ const Reducer = (state: GameState, action: Action): GameState => {
       return newState;
     }
 
+    case ActionKind.SetCurrentTurn: {
+      const newState = { ...state };
+      const { id } = action.payload;
+
+      newState.currentTurn = id;
+
+      return newState;
+    }
+
+    case ActionKind.ToggleNextTurnButton: {
+      const newState = { ...state };
+      const { showNextTurnButton } = action.payload;
+
+      newState.showNextTurnButton = showNextTurnButton;
+
+      return newState;
+    }
+
+    case ActionKind.ToggleIsGridEnabled: {
+      const newState = { ...state };
+      const { id, isFireEnabled } = action.payload;
+
+      newState.players[id].isFireEnabled = isFireEnabled;
+
+      return newState;
+    }
+
     case ActionKind.StartGame: {
       const newState = { ...state };
       newState.started = true;

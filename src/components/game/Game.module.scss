@@ -1,6 +1,7 @@
 .actionBar {
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
-  margin-left: 35%;
 
   button {
     margin-left: 6px;
