@@ -40,7 +40,7 @@ export default function Ship({
       if (dropResult) {
         const shipTracker = state.players[playerId].shipTracker[id];
         if (typeof shipTracker !== 'undefined') {
-          const previousLocations = { ...shipTracker.locations };
+          const previousLocations = [...shipTracker.locations];
           previousLocations.map((previousLocation) => {
             const { row, column } = previousLocation;
             dispatch({

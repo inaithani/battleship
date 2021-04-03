@@ -3,6 +3,7 @@ import {
   GameState,
   PlayerIdentifiers,
   IStoreProps,
+  DefaultGridDimesions,
 } from './App.model';
 import Reducer from './Reducer';
 import { getBaseGridState } from './utils';
@@ -11,14 +12,14 @@ import { Action } from './Actions';
 const initialState: GameState = {
   players: {
     [PlayerIdentifiers.FIRST]: {
-      gridState: getBaseGridState(10, 10),
+      gridState: getBaseGridState(DefaultGridDimesions.Rows, DefaultGridDimesions.Columns),
       isActive: true,
       isFireEnabled: false,
       winner: false,
       shipTracker: {},
     },
     [PlayerIdentifiers.SECOND]: {
-      gridState: getBaseGridState(10, 10),
+      gridState: getBaseGridState(DefaultGridDimesions.Rows, DefaultGridDimesions.Columns),
       isActive: false,
       isFireEnabled: false,
       winner: false,

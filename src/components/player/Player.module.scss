@@ -2,9 +2,9 @@
   margin: 20px;
   .playerPane {
     display: flex;
+    justify-content: center;
 
     .playerPaneLeft {
-      width: 35%;
       .shipsContainer {
         display: flex;
         margin-bottom: 30px;
@@ -15,8 +15,8 @@
       }
     }
 
-    .playerPaneRight {
-      width: 65%;
+    .playerPaneRight, .playerPaneLeft {
+        margin: 0 25px;
     }
   }
   .playerHeading {

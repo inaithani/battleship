@@ -95,6 +95,7 @@ export const hasCollisionPath = (
   columnIndex: number | undefined,
   orientation: Orientation,
   length: number,
+  shipId: string,
 ): boolean => {
   if (Array.isArray(gridState) && typeof rowIndex === 'number' && typeof columnIndex === 'number') {
     const { state } = gridState[rowIndex][columnIndex];
@@ -110,7 +111,7 @@ export const hasCollisionPath = (
     if (orientation === 'vertical') {
       let n = rowIndex;
       while (n < rowIndex + length) {
-        if (gridState[n][columnIndex].state === 1) {
+        if (gridState[n][columnIndex].state === 1 && gridState[n][columnIndex].shipId !== shipId) {
           collisionFound = true;
           break;
         }
@@ -119,7 +120,7 @@ export const hasCollisionPath = (
     } else {
       let n = columnIndex;
       while (n < columnIndex + length) {
-        if (gridState[rowIndex][n].state === 1) {
+        if (gridState[rowIndex][n].state === 1 && gridState[rowIndex][n].shipId !== shipId) {
           collisionFound = true;
           break;
         }

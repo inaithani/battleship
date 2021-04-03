@@ -53,6 +53,7 @@ export default function DropAwareCell({
           columnIndex,
           shipItem.orientation,
           shipItem.length,
+          shipItem.id,
         );
         setShowDropPlaceholder(isOverCell && !isColliding);
       } else {
@@ -69,6 +70,7 @@ export default function DropAwareCell({
         columnIndex,
         shipItem.orientation,
         shipItem.length,
+        shipItem.id,
       );
       if (isColliding) return false;
       return true;

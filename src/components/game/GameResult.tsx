@@ -33,6 +33,11 @@ const GameResult = () => {
           <GridWrapper id={SECOND} />
         </div>
       </div>
+      {/* <div className={styles.actions}>
+        <button type="button">
+          Start Over
+        </button>
+      </div> */}
     </div>
   );
 };
