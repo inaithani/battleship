@@ -71,7 +71,15 @@ export default function Ship({
     [styles.sunken]: sunken,
   });
   return (
-    <div ref={!state.started ? drag : null} className={shipClasses} style={{ width, opacity: isDragging ? 0.5 : 1, height: isPlacedOnGrid && orientation === 'horizontal' ? DefaultGridDimesions.CellSize : 'auto' }}>
+    <div
+      ref={!state.started ? drag : null}
+      className={shipClasses}
+      style={{
+        width,
+        opacity: isDragging ? 0.5 : 1,
+        height: orientation === 'horizontal' ? DefaultGridDimesions.CellSize : DefaultGridDimesions.CellSize * length + (length - 1),
+      }}
+    >
       {
         shipArray.map((el, index) => <ShipCell key={`${orientation}-${el + index}`} isPlacedOnGrid={isPlacedOnGrid} />)
       }

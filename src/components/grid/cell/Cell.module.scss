@@ -53,7 +53,7 @@
 }
 
 .showDropPlaceholder {
-  border: 2px solid forestgreen;
+  outline: 2px dashed darken(#00f, 20);
   position: absolute;
   top: 0;
   left: 0;

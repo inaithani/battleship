@@ -122,8 +122,8 @@ export default function DropAwareCell({
           <div
             className={classesPlaceholder}
             style={{
-              height: currentDraggedShip.orientation === 'vertical' ? DefaultGridDimesions.CellSize * currentDraggedShip.length : DefaultGridDimesions.CellSize,
-              width: currentDraggedShip.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * currentDraggedShip.length : DefaultGridDimesions.CellSize,
+              height: currentDraggedShip.orientation === 'vertical' ? DefaultGridDimesions.CellSize * currentDraggedShip.length + (currentDraggedShip.length - 1) : DefaultGridDimesions.CellSize,
+              width: currentDraggedShip.orientation === 'horizontal' ? DefaultGridDimesions.CellSize * currentDraggedShip.length + (currentDraggedShip.length - 1) : DefaultGridDimesions.CellSize,
             }}
           />
         ) : null
