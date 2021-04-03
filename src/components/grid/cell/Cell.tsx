@@ -17,7 +17,6 @@ export default function Cell({
   const { state, dispatch } = useContext(GameContext);
   const cellState = state.players[id].gridState[rowIndex][columnIndex];
   const size = DefaultGridDimesions.CellSize;
-  const { FIRST, SECOND } = PlayerIdentifiers;
   const cellStyles = isShip ? { width: size - 2, height: size - 2 } : {};
   const cellClasses = classNames({
     [styles.cell]: true,
@@ -25,11 +24,9 @@ export default function Cell({
   });
 
   const prepareToFire = () => {
-    const nextPlayer = id === FIRST ? SECOND : id;
     fire(state, dispatch, id, rowIndex, columnIndex);
     toggleIsFireEnabled(dispatch, id, false);
-    toggleIsFireEnabled(dispatch, id, false);
-    setCurrentTurn(dispatch, nextPlayer);
+    setCurrentTurn(dispatch, id);
     toggleNextTurnButton(dispatch, true);
   };
 
