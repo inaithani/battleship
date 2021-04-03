@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import { IShipSchema } from '../components/ship/Ship.model';
 
-const shipsSchema = {
+const shipsSchema: IShipSchema = {
   horizontal: [{
     length: 4,
     id: uuidv4(),
@@ -21,7 +22,7 @@ const shipsSchema = {
     length: 2,
     id: uuidv4(),
   }],
-  square: [{
+  none: [{
     length: 1,
     id: uuidv4(),
   }, {

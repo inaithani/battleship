@@ -20,6 +20,11 @@
 .shipCell {
   background-color: #fff;
   border: 1px solid #b4b4ff;
+  cursor: move;
+  &.shipCellDisabled {
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+  }
 }
 
 .hiddenViewMode {

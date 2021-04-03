@@ -1,6 +1,6 @@
 import { PlayerIdentifiers } from '../../App.model';
 
-export type Orientation = 'vertical' | 'horizontal';
+export type Orientation = 'vertical' | 'horizontal' | 'none';
 export interface ShipProps extends Ship {
   isPlacedOnGrid?: boolean,
   playerId: PlayerIdentifiers,
@@ -13,4 +13,13 @@ export interface Ship {
   id: string
 }
 
-export interface IShipCellProps {}
+export interface IShipCellProps {
+  disabled?: boolean;
+}
+
+export interface IShipSchema {
+  [key: string]: Array<{
+    length: number;
+    id: string
+  }>
+}
