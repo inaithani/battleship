@@ -13,6 +13,7 @@ export enum ActionKind {
   SetCurrentTurn = 'SET_CURRENT_TURN',
   ToggleNextTurnButton = 'TOGGLE_NEXT_TURN_BUTTON',
   CheckPlayerVictory = 'CHECK_PLAYER_VICTORY',
+  ResetGame = 'RESET_GAME',
 }
 
 export type Action = {

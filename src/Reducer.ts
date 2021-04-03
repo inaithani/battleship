@@ -6,6 +6,7 @@ import {
   IInitShipTrackerAction,
   IUpdateShipTracker,
 } from './Actions';
+import { getInitialState } from './utils/index';
 
 const Reducer = (state: GameState, action: Action): GameState => {
   switch (action.type) {
@@ -134,6 +135,11 @@ const Reducer = (state: GameState, action: Action): GameState => {
         id,
       } = action.payload;
       newState.players[id].winner = winner;
+      return newState;
+    }
+
+    case ActionKind.ResetGame: {
+      const newState = getInitialState();
       return newState;
     }
 

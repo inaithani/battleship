@@ -2,13 +2,18 @@ import { useContext } from 'react';
 import { PlayerIdentifiers } from '../../App.model';
 import { GameContext } from '../../GameStore';
 import GridWrapper from '../grid/index';
+import { resetGame } from '../../utils/index';
 import styles from './Game.module.scss';
 
 const GameResult = () => {
-  const { state } = useContext(GameContext);
+  const { state, dispatch } = useContext(GameContext);
   const { FIRST, SECOND } = PlayerIdentifiers;
 
   const isFirstPlayerWinner = state.players[FIRST].winner;
+
+  const startOver = () => {
+    resetGame(dispatch);
+  };
 
   return (
     <div className={styles.gameResultContainer}>
@@ -33,11 +38,11 @@ const GameResult = () => {
           <GridWrapper id={SECOND} />
         </div>
       </div>
-      {/* <div className={styles.actions}>
-        <button type="button">
+      <div className={styles.actions}>
+        <button className={styles.gameButton} type="button" onClick={startOver}>
           Start Over
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };

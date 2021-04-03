@@ -1,28 +1,36 @@
 .actionBar {
   display: flex;
-  justify-content: center;
   margin-top: 30px;
+  flex-direction: column;
 
-  button {
-    margin-left: 6px;
-    border: 2px solid darken(#00f, 20);
-    background-color: white;
-    color: black;
-    padding: 6px 10px;
-    font-size: 16px;
-
-    &.start {
-      border-color: #4CAF50;
-      color: green;
-    }
+  .buttonBar {
+    display: flex;
+    justify-content: center;
   }
+
+  .userMessage {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+
+    .errorChevron {
+      color: crimson;
+      font-size: 110%;
+    }
+
+    .errorMessage {
+      border-bottom: 1px dotted crimson;
+      padding-bottom: 3px;
+    }
+  }  
 }
 
 .gameResultContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 35px;
+  margin: 35px 0;
+  padding: 20px 0;
   border: 1px solid darken(#00f, 20);
   border-radius: 5px;
   flex-direction: column;
@@ -42,5 +50,40 @@
     .player {
       margin: 30px 15px;
     }
+  }
+
+  .actions {
+    margin: 25px 0;
+  }
+}
+
+button.gameButton {
+  margin-left: 6px;
+  font-size: 100%;
+  padding: .5em 1em;
+  color: rgba(0,0,0,.8);
+  border: transparent;
+  background-color: #e6e6e6;
+  text-decoration: none;
+  border-radius: 2px;
+  display: inline-block;
+  line-height: normal;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  letter-spacing: .01em;
+  &:hover, &:focus {
+    background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+  }
+
+  &:disabled {
+    border: none;
+    background-image: none;
+    opacity: .4;
+    cursor: not-allowed;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    pointer-events: none;
   }
 }

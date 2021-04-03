@@ -9,6 +9,31 @@ import {
   GameState,
 } from '../App.model';
 import { Orientation } from '../components/ship/Ship.model';
+import shipsSchema from './ships.data';
+
+export const getInitialState = (): GameState => (
+  {
+    players: {
+      [PlayerIdentifiers.FIRST]: {
+        gridState: getBaseGridState(DefaultGridDimesions.Rows, DefaultGridDimesions.Columns),
+        isActive: true,
+        isFireEnabled: false,
+        winner: false,
+        shipTracker: {},
+      },
+      [PlayerIdentifiers.SECOND]: {
+        gridState: getBaseGridState(DefaultGridDimesions.Rows, DefaultGridDimesions.Columns),
+        isActive: false,
+        isFireEnabled: false,
+        winner: false,
+        shipTracker: {},
+      },
+    },
+    started: false,
+    currentTurn: PlayerIdentifiers.FIRST,
+    showNextTurnButton: false,
+  }
+);
 
 export const startGame = (dispatch: Dispatch<Action>) => {
   dispatch({
@@ -198,6 +223,15 @@ export const setCurrentTurn = (
   });
 };
 
+export const resetGame = (
+  dispatch: Dispatch<Action>,
+) => {
+  dispatch({
+    type: ActionKind.ResetGame,
+    payload: {},
+  });
+};
+
 export const toggleNextTurnButton = (
   dispatch: Dispatch<Action>,
   showNextTurnButton: boolean,
@@ -243,4 +277,22 @@ export const checkPlayerVictory = (
       },
     });
   }
+};
+
+export const areAllPlayerShipsPlaced = (state: GameState, id: PlayerIdentifiers): boolean => {
+  const playerState = state.players[id];
+  let totalCount = 0;
+  let allShipsPlaced = false;
+
+  for (const orientationKey in shipsSchema) {
+    if (Object.prototype.hasOwnProperty.call(shipsSchema, orientationKey)) {
+      totalCount += shipsSchema[orientationKey].length;
+    }
+  }
+
+  if (typeof playerState.shipTracker !== 'undefined') {
+    allShipsPlaced = totalCount === Object.keys(playerState.shipTracker).length;
+  }
+
+  return allShipsPlaced;
 };
