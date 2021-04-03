@@ -220,7 +220,9 @@ export const checkPlayerVictory = (
   for (const shipId in ships) {
     if (Object.hasOwnProperty.call(ships, shipId)) {
       const { sunken } = ships[shipId];
-      allShipsSunken = sunken;
+      if (!sunken) {
+        allShipsSunken = false;
+      }
     }
   }
 
