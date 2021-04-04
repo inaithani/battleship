@@ -4,6 +4,7 @@ import { ICellProps } from './Cell.model';
 import styles from './Cell.module.scss';
 import { DefaultGridDimesions, StateValue } from '../../../App.model';
 import { GameContext } from '../../../GameStore';
+import GridMarker from './GridMarker';
 import { fire } from './helpers';
 import {
   toggleIsFireEnabled,
@@ -48,6 +49,8 @@ export default function Cell({
   && cellState.state !== StateValue.CELL_HIT
   && cellState.state !== StateValue.CELL_MISS;
 
+  const showGridMarker = rowIndex === 0 || columnIndex === 0;
+
   return (
     <div
       className={cellClasses}
@@ -63,6 +66,9 @@ export default function Cell({
       {
         cellState.state === StateValue.CELL_MISS
           ? <div className={styles.missed}>&sdot;</div> : null
+      }
+      {
+        showGridMarker ? <GridMarker rowIndex={rowIndex} columnIndex={columnIndex} /> : null
       }
     </div>
   );

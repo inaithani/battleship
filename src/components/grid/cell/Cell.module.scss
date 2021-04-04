@@ -8,6 +8,8 @@
     width: 100%;
     background: none;
     cursor: pointer;
+    position: absolute;
+    z-index: 1;
     &:hover {
       border: 1px solid red;
     }
@@ -45,6 +47,30 @@
     align-items: center;
     font-size: 22px;
     color: crimson;
+  }
+
+  .columnMarker, .rowMarker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 80%;
+    height: 100%;
+    width: 100%;
+    color: darken(#00f, 20);
+    top: 0;
+    left: 0;
+  }
+
+  .columnMarker.rowMarker {
+    .columnIndexMarker, .rowIndexMarker {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 
