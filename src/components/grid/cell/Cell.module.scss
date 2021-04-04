@@ -1,5 +1,7 @@
 .cell {
   background-color: #fff;
+  height: 100%;
+  width: 100%;
 
   .cellButton {
     padding: 0;
@@ -74,8 +76,9 @@
   }
 }
 
-.positionRelative {
+.dropAwareCellMainWrapper {
   position: relative;
+  background: #fff;
 }
 
 .showDropPlaceholder {

@@ -78,7 +78,7 @@ export default function DropAwareCell({
   }));
 
   const classesMainWrapper = classNames({
-    [styles.positionRelative]: true,
+    [styles.dropAwareCellMainWrapper]: true,
   });
 
   const classesPlaceholder = classNames({
@@ -102,6 +102,10 @@ export default function DropAwareCell({
     <div
       ref={cellStateValue === StateValue.CELL_EMPTY ? drop : null}
       className={classesMainWrapper}
+      style={{
+        width: DefaultGridDimesions.CellSize,
+        height: DefaultGridDimesions.CellSize,
+      }}
     >
       <Cell
         isShip={isShip}
