@@ -1,0 +1,183 @@
+@startuml
+title Battleship
+
+class GameStore << (C,yellow) Provider>> {
+    ~store: GameState
+}
+
+class Game << (C,yellow) component>> {
+    ~Context: GameState
+}
+
+class Player << (C,yellow) component>> {
+    ==props==
+    # id:PlayerIdentifier
+}
+
+class PlayerActions << (C,yellow) component>> {
+    ~Context: GameState
+    ==methods==
+    +startGame
+    +turnChange
+    +nextPlayerGameSetup
+}
+
+class ShipsContainer << (C,yellow) container>> {
+    ~Context: GameState
+    ==props==
+    # id:PlayerIdentifier
+}
+
+class GridWrapper << (C,yellow) component >> {
+    ==props==
+    # id:PlayerIdentifier
+}
+
+class Ship << (C,yellow) component >> {
+    ~Context: GameState
+    ==props==
+    # id:ShipId
+    # playerId:PlayerIdentifier
+    # orientation:enum
+    # isPlacedOnGrid:boolean
+    # sunken:boolean
+    ==methods==
+    +initializeShipTraker
+    +updateShipLocation
+}
+
+class ShipCell << (C,yellow) component >> {
+    ==props==
+    # orientation:enum
+    # isPlacedOnGrid:boolean
+    # disabled: boolean
+}
+
+class BaseGrid << (C,yellow) component >> {
+    ~Context: GameState
+    ==props==
+    # id:PlayerIdentifier
+    # hiddenViewMode:boolean
+}
+
+class DropAwareCell << (C,yellow) component >> {
+    ~Context: GameState
+    ==state==
+    # showDropPlaceholder: boolean
+    # currentDraggedShip: boolean
+    ==props==
+    # rowIndex: number
+    # columnIndex: number
+    # isShip: boolean
+    # id: PlayerIdentifier
+    # hiddenViewMode: boolean
+     ==methods==
+    +setShowDropPlaceholder
+    +setCurrentDraggedShip
+    +drop
+    +collect
+    +canDrop
+    +hasCollisionPath
+}
+
+class Cell << (C,yellow) component >> {
+    ~Context: GameState
+    ==props==
+    # rowIndex: number
+    # columnIndex: number
+    # isShip: boolean
+    # id: PlayerIdentifier
+    # hiddenViewMode: boolean
+    ==methods==
+    +setCellHitMissState
+    +updateShipTracker
+    +toggleIsGridEnabled
+    +setCurrentTurn
+    +toggleNextTurnButton
+    +checkPlayerVictory
+}
+
+class GameResult << (C,green) component >> {
+    # columnIndex: number
+    ==methods==
+    +resetGame
+}
+
+GameStore ..> Game
+Game ..> Player
+Game ..> PlayerActions
+Game ..> GameResult
+GameResult ..> GridWrapper
+note on link: GameResult renders when GameState has a winner
+Player ..> ShipsContainer
+Player ..> GridWrapper
+ShipsContainer ..> Ship
+Ship ..>ShipCell
+GridWrapper ..> BaseGrid
+BaseGrid ..> DropAwareCell
+DropAwareCell ..> Cell
+DropAwareCell ..> Ship : DropAwareCell -> Ship
+note on link: Ship renders on only the target DropAwareCell for a drop
+
+enum PlayerIdentifier {
+  FIRST
+  SECOND
+}
+
+enum DefaultGridDimesions {
+  Rows
+  Columns
+  CellSize
+}
+
+enum StateValue {
+  CELL_EMPTY
+  CELL_BUSY
+  CELL_HIT
+  CELL_MISS
+}
+
+interface CellState {
+  isTarget: boolean
+  state: StateValue
+  ship: Ship
+  shipId: string
+}
+
+interface IShipLocation {
+  row: number
+  column: number
+  hit: boolean
+}
+
+interface IShipTrackerProps {
+  sunken: boolean
+  locations: Array<IShipLocation>
+}
+
+interface IShipTracker {
+  shipTracker: Map<shipId, IShipTrackerProps>
+}
+
+interface IPlayerGameState {
+  isActive: boolean
+  isFireEnabled: boolean
+  gridState: Array<Array<CellState>>
+  shipTracker: IShipTracker
+  winner: boolean
+}
+
+interface GameState {
+  players: Map<PlayerIdentifier, IPlayerGameState>
+  started: boolean
+  currentTurn: PlayerIdentifiers
+  showNextTurnButton: boolean
+}
+
+GameState ..> IPlayerGameState
+IPlayerGameState ..> CellState
+IPlayerGameState ..> IShipTracker
+IShipTracker ..> IShipTrackerProps
+IShipTrackerProps ..> IShipLocation
+
+@enduml
