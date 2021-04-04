@@ -23,7 +23,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
 ## UML
-(https://github.com/ishannaithani/battleship/blob/master/battleship-uml.png)
+(https://raw.githubusercontent.com/ishannaithani/battleship/master/battleship-uml.png)
 
 
   
