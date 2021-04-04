@@ -36,10 +36,6 @@
   }
 
   cursor: move;
-  &.shipCellDisabled {
-    border-color: #e0e0e0;
-    cursor: not-allowed;
-  }
 
   &.inGrid {
     border: none;
@@ -47,6 +43,11 @@
     &.horizontal, &.vertical {
       border: none;
     }
+  }
+
+  &.shipCellDisabled {
+    border: 1px solid #e0e0e0;
+    cursor: not-allowed;
   }
 }
 

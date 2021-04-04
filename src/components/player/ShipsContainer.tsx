@@ -17,7 +17,7 @@ const ShipDisabled = ({ length, orientation } : { length: number, orientation: O
   return (
     <div className={shipClasses} style={{ width, height }}>
       {
-        cellArray.map((el, index) => <ShipCell disabled key={`${orientation}-${el + index}`} />)
+        cellArray.map((el, index) => <ShipCell disabled key={`${orientation}-${el + index}`} isPlacedOnGrid={false} />)
       }
     </div>
   );
