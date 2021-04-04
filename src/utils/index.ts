@@ -11,6 +11,9 @@ import {
 import { Orientation } from '../components/ship/Ship.model';
 import shipsSchema from './ships.data';
 
+/**
+ * Util function to generate on return the initial state or reset state
+ */
 export const getInitialState = (): GameState => (
   {
     players: {
@@ -35,6 +38,9 @@ export const getInitialState = (): GameState => (
   }
 );
 
+/**
+ * Starts the game and sets the active player as the first player
+ */
 export const startGame = (dispatch: Dispatch<Action>) => {
   dispatch({
     type: ActionKind.StartGame,
@@ -51,6 +57,11 @@ export const startGame = (dispatch: Dispatch<Action>) => {
   toggleIsFireEnabled(dispatch, PlayerIdentifiers.SECOND, true);
 };
 
+/**
+ * Fired after the Cell is cliked and requires a change of turn
+ * Sets the next player as active player and enables fire on the grid
+ * of the oponent.
+ */
 export const turnChange = (dispatch: Dispatch<Action>, state: GameState) => {
   dispatch({
     type: ActionKind.SetActivePlayer,
@@ -71,6 +82,9 @@ export const turnChange = (dispatch: Dispatch<Action>, state: GameState) => {
   toggleIsFireEnabled(dispatch, enableFireFor, true);
 };
 
+/*
+ * Shows the setup screen for the next player
+ */
 export const nextPlayerGameSetup = (dispatch: Dispatch<Action>, isFirstPlayerActive: boolean) => {
   const id = isFirstPlayerActive ? PlayerIdentifiers.SECOND : PlayerIdentifiers.FIRST;
   dispatch({
@@ -81,6 +95,10 @@ export const nextPlayerGameSetup = (dispatch: Dispatch<Action>, isFirstPlayerAct
   });
 };
 
+/**
+ * Util function used by the getInitialState function. Generates the 2D Array
+ * and fills it with the default CellState
+ */
 export const getBaseGridState = (rows: number, columns: number): GridState => {
   const arrayState = new Array(rows);
   const defaultCellState: CellState = {
@@ -98,12 +116,17 @@ export const getBaseGridState = (rows: number, columns: number): GridState => {
   return arrayState;
 };
 
+/**
+ * The function is fired when Ship is being dragged over a Grid Cell
+ * It determines wether it is out of the grid boundary. This is used
+ * for helping to show the drop placeholder correctly.
+ */
 const isShipOutOfBounds = (
   rowIndex: number,
   columnIndex: number,
   orientation: Orientation,
   length: number,
-) => {
+): boolean => {
   let isOutOfBounds = false;
   if (orientation === 'vertical') {
     isOutOfBounds = (rowIndex + length) > DefaultGridDimesions.Rows;
@@ -114,6 +137,12 @@ const isShipOutOfBounds = (
   return isOutOfBounds;
 };
 
+/**
+ * The function is fired when Ship is being dragged over a Grid Cell. It determines
+ * that if the Ship was to be dropped on this particular cell, are all the cells need
+ * by the Ship's length unoccupied or occupied. This is used for helping to show the
+ * drop placeholder correctly.
+ */
 export const hasCollisionPath = (
   gridState: GridState | undefined,
   rowIndex: number | undefined,
@@ -158,6 +187,11 @@ export const hasCollisionPath = (
   return true;
 };
 
+/**
+ * Fired when a Ship is succesfully dropped on a cell. The function updates
+ * the target cell i.e.the Cell on which it was dropped and the required
+ * adjacent Cells on the path to CELL_BUSY value
+ */
 export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellAction): void => {
   const {
     rowIndex,
@@ -177,7 +211,7 @@ export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellActio
     const siblingCellBusy: CellState = {
       isTarget: false,
       ship: null,
-      state: 1,
+      state: StateValue.CELL_BUSY,
       shipId: cellState.ship.id,
     };
 
@@ -197,6 +231,9 @@ export const dispatchUpdateCell = (dispatch: Function, payload: IUpdateCellActio
   }
 };
 
+/**
+ * Enable/Disable fire button on a Player's Grid
+ */
 export const toggleIsFireEnabled = (
   dispatch: Dispatch<Action>,
   id: PlayerIdentifiers,
@@ -211,6 +248,9 @@ export const toggleIsFireEnabled = (
   });
 };
 
+/**
+ * Change the turn to the next player
+ */
 export const setCurrentTurn = (
   dispatch: Dispatch<Action>,
   id: PlayerIdentifiers,
@@ -223,6 +263,9 @@ export const setCurrentTurn = (
   });
 };
 
+/**
+ * Start Over and reset the state to initialState
+ */
 export const resetGame = (
   dispatch: Dispatch<Action>,
 ) => {
@@ -232,6 +275,9 @@ export const resetGame = (
   });
 };
 
+/**
+ * Show/Hide the Take Next Turn button
+ */
 export const toggleNextTurnButton = (
   dispatch: Dispatch<Action>,
   showNextTurnButton: boolean,
@@ -244,6 +290,11 @@ export const toggleNextTurnButton = (
   });
 };
 
+/**
+ * Called when a Cell is hit - this function checks if all of the
+ * ships of a player have been destroyed. It updates the winner flag
+ * in the GameState
+ */
 export const checkPlayerVictory = (
   dispatch: Dispatch<Action>,
   state: GameState,
@@ -279,6 +330,10 @@ export const checkPlayerVictory = (
   }
 };
 
+/**
+ * Validation function to check if all the Ships have been
+ * placed on the Grid by the player.
+ */
 export const areAllPlayerShipsPlaced = (state: GameState, id: PlayerIdentifiers): boolean => {
   const playerState = state.players[id];
   let totalCount = 0;
