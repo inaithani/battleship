@@ -1,24 +1,29 @@
 @startuml
-title Battleship Sequence Diagram
 actor Player1 #red
-actor Player2 #green
 
 participant GameApp
 participant SocketServer
 
+actor Player2 #green
 
 
 
 Player1->GameApp: Sets up the grid and click start game
 GameApp->SocketServer: request to create a room
-SocketServer->GameApp: Sends the room Id and playId(socketId)
+SocketServer->GameApp: Sends the room Id and playerId(socketId)
 GameApp-> Player1: gets the room Id link
 Player1 -> Player2 : Share the room Id link
 Player2 -> GameApp : Enter the room link and sets the grid and click start
 GameApp->SocketServer: Request to join room with room Id and start the Game
-SocketServer -> GameApp : Generate the player2 Id(socketId). And broadcast currentTurn to first player Id
+SocketServer -> GameApp : Generate the player2 Id(socketId). And broadcast game started and currentTurn to first player with first player Id
 GameApp -> Player1 : FireEnabled set true for Player 2 grid
 Player1 -> GameApp : Player1 fires a click
 GameApp -> SocketServer: socket.to(roomId).emit('fire', { rowIndex, columnIndex })
 SocketServer -> GameApp: socket.on('fire') to check if cell is hit or miss
+GameApp -> Player2: Opponent Player notified if it was hit or miss on its cell
+SocketServer -> GameApp: socket.to(roomId).emit('cellUpdated', { rowIndex, columnIndex, newCellState })
+GameApp -> Player1: Player notified if it was hit or miss on the opponent cell. And if a ship has sunken(using ShipTracker)
+GameApp -> GameApp:  If hit is true, checkPlayerVictory - if all ships have sunk, the opponent has won.
+GameApp -> SocketServer: Broadcast to room 'gameOver' with opponent's socketId as winnerId
+SocketServer->GameApp:Broadcast GameOver with winnerId to both players
 @enduml
